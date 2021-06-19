@@ -1,0 +1,87 @@
+<template>
+	<div>
+		<a-table :columns="columns" :data-source="list" :pagination="pagination" rowKey="id">
+			<template #operation="text, record, index">
+				<a href="javascript:;" @click="edit(index, record)">编辑</a>
+				<a href="javascript:;" @click="del(index, record)">删除</a>
+			</template>
+		</a-table>
+		<!-- <a-pagination show-quick-jumper :total="total" :current="pageNumber" showSizeChanger :page-size.sync="pageSize" @change="pageChange"
+			@showSizeChange="pageSizeChange" :pageSizeOptions="pageSizes" /> -->
+	</div>
+</template>
+
+<script>
+import { Table } from 'ant-design-vue'
+import { fetchTagPagination } from '@/api/fetch/tag'
+// import { fetchTagList } from '../../api/fetch/tag'
+export default {
+	name: "WsTagMgPage",
+	components: {
+		ATable: Table,
+		// ATableColumn: Table.Column,
+	},
+	data() {
+		return {
+			pagination: {
+				current: 0,
+				pageSize: 5,
+				pageSizeOptions: ['5', '10', '15', '20'],
+				total: 0,
+			},
+			list: [],
+			columns: [
+				{
+					title: '标题',
+					dataIndex: 'name',
+					key: 'name',
+				},
+				{
+					title: '描述',
+					dataIndex: 'desc',
+					key: 'desc',
+				},
+				{
+					title: '操作',
+					dataIndex: 'operation',
+					key: 'operation',
+					scopedSlots: { customRender: 'operation' }
+				},
+			]
+		}
+	},
+	created() {
+		this.fetchTagPagination()
+	},
+	methods: {
+		fetchTagPagination() {
+			fetchTagPagination().then(res => {
+				if (res.code === 200) {
+					const { data } = res.data
+					this.total = data.total
+					this.list = data.list
+				}
+			}).catch(err => {
+				if (process.env.NODE_ENV === 'development') {
+					console.log(err);
+				}
+			})
+		},
+		pageChange () {
+
+		},
+		pageSizeChange () {
+
+		},
+		edit(index, record) {
+			this.$router.push("/setting/tag/" + record.id)
+		},
+		del(index, record) {
+			console.log(index, record);
+		},
+	}
+}
+</script>
+<style lang="scss" scoped>
+
+</style>

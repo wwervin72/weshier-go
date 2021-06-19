@@ -1,0 +1,32 @@
+# dependencies
+frontend/node_modules
+frontend/dist
+frontend/.pnp
+frontend/.pnp.js
+fe-vue/node_modules
+fe-vue/dist
+fe-vue/.pnp
+fe-vue/*.production
+fe-vue/.pnp.js
+
+# testing
+frontend/coverage
+
+# production
+/build
+
+frontend/npm-debug.log*
+frontend/yarn-debug.log*
+frontend/yarn-error.log*
+fe-vue/npm-debug.log*
+fe-vue/yarn-debug.log*
+fe-vue/yarn-error.log*
+
+tmp/
+conf/config.json
+log/*
+docs/*
+
+.DS_Store
+.idea
+public/*

@@ -1,0 +1,49 @@
+
+# @name login
+POST {{baseURL}}/api/user/login HTTP/1.1
+Content-Type: application/json
+
+{
+	"username": "admin",
+	"password": "admin"
+}
+
+###
+
+# @name queryUserInfoByToken
+
+@token = {{login.response.body.data.token}}
+GET {{baseURL}}/api/user/ HTTP/1.1
+Authorization: Bearer {{token}}
+
+###
+
+GET http://localhost:3333/api/article/detail/8 HTTP/1.1
+
+###
+###
+GET http://localhost:3333/api/article/page?pageSize=2&pageNumber=1 HTTP/1.1
+###
+
+###
+GET http://localhost:3333/api/tag/list HTTP/1.1
+###
+###
+GET http://localhost:3333/api/cate/list HTTP/1.1
+###
+###
+POST http://localhost:3333/api/file/upload/img HTTP/1.1
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundaryAdPWB9y8gDZKEaVv
+
+------WebKitFormBoundaryAdPWB9y8gDZKEaVv
+Content-Disposition: form-data;
+Content-Type: application/octet-stream
+
+< ./shier.png
+
+------WebKitFormBoundaryAdPWB9y8gDZKEaVv--
+
+###
+###
+GET http://localhost:3333/api/article/statistic/month HTTP/1.1
+###
