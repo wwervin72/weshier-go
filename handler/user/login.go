@@ -16,7 +16,14 @@ import (
 	"go.uber.org/zap"
 )
 
-// Login login
+// Login
+// @Summary 用户登录
+// @Description 用户登录
+// @Tags user
+// @Param login body LoginReqStruct true "登录账号"
+// @Produce json
+// @Success 200 {object} handler.Response{LoginResStruct} "登录成功"
+// @Router /api/user/login [post]
 func Login(c *gin.Context) {
 	var u LoginReqStruct
 	if err := c.ShouldBindJSON(&u); err != nil {
@@ -48,7 +55,14 @@ func Login(c *gin.Context) {
 	return
 }
 
-// GithubLogin github login
+// GithubLogin
+// @Summary github 登录回调
+// @Description github 登录回调
+// @Tags user
+// @Param code query string true "github 返回的 code"
+// @Produce json
+// @Success 200 {object} handler.Response{LoginResStruct} "github 登录成功"
+// @Router /api/user/auth/github/callback [get]
 func GithubLogin(c *gin.Context) {
 	code := c.Query("code")
 	if code == "" {

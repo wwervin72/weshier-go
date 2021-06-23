@@ -1,6 +1,8 @@
 package router
 
 import (
+	_ "weshierNext/docs"
+
 	"fmt"
 	"weshierNext/handler/article"
 	"weshierNext/handler/category"

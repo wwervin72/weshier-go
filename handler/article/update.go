@@ -9,7 +9,14 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// Create create article
+// Update
+// @Summary 更新文章
+// @Description 更新文章
+// @Tags article
+// @Produce json
+// @Param updateArticle body request.UpdateArticleReqStruct true "更新文章参数"
+// @Success 200 {object} string "更新文章"
+// @Router /api/article [put]
 func Update(c *gin.Context) {
 	body := &request.UpdateArticleReqStruct{}
 	if err := c.ShouldBindJSON(&body); err != nil {

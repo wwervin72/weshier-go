@@ -12,7 +12,14 @@ import (
 	"github.com/jinzhu/gorm"
 )
 
-// QueryArticleDetailByID query article detail by id
+// QueryArticleDetailByID
+// @Summary 查询文章详情
+// @Description 通过id查询文章详情
+// @Tags article
+// @Produce json
+// @Param Param path string true "查询文章详情参数"
+// @Success 200 {object} model.ArticleModel "通过id查询文章详情"
+// @Router /api/article/detail/{articleId} [get]
 func QueryArticleDetailByID(c *gin.Context) {
 	id := c.Param("articleId")
 	intId, err := strconv.Atoi(id)

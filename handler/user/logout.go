@@ -9,6 +9,13 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// Logout
+// @Summary 退出登录
+// @Description 退出登录
+// @Tags user
+// @Produce json
+// @Success 200 {object} string "退出登录"
+// @Router /api/user/logout [get]
 func Logout(c *gin.Context) {
 	tokenKey, err := token.ParseRequest(c)
 	if err != nil {

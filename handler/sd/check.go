@@ -22,25 +22,24 @@ const (
 	GB = 1024 * MB
 )
 
-// HealthCheck /sd/health
-// @Summary healthy check
-// @Description healthy check
+// HealthCheck
+// @Summary 服务器健康检测
+// @Description 服务器健康检测
 // @Tags healthy check
 // @Produce plain
-// @Success 200 string string "服务器健康检查"
+// @Success 200 string string "服务器健康检测"
 // @Router /api/sd/health [get]
 func HealthCheck(c *gin.Context) {
 	message := "ok"
 	c.String(http.StatusOK, message)
 }
 
-// DiskCheck /sd/disk
-// @Summary healthy check disk
-// @Description healthy
-// @Tags healthy
+// @Summary 服务器磁盘检测
+// @Description 服务器磁盘使用检测
+// @Tags healthy check
 // @Produce plain
-// @Success 200 string string "服务器磁盘健康检查"
-// @Router /user [get]
+// @Success 200 string string "服务器磁盘健康检测"
+// @Router /api/sd/disk [get]
 func DiskCheck(c *gin.Context) {
 	u, _ := disk.Usage("/")
 	usedMB := int(u.Used) / MB
@@ -63,13 +62,13 @@ func DiskCheck(c *gin.Context) {
 	c.String(status, message)
 }
 
-// CPUCheck /sd/cpu
+// CPUCheck
 // @Summary 服务器 cpu 检测
 // @Description 服务器 cpu 检测
 // @Tags healthy check
 // @Produce plain
-// @Success 200 string string "服务器 cpu 健康检查"
-// @Router /sd/cpu [get]
+// @Success 200 string string "服务器 cpu 健康检测"
+// @Router /api/sd/cpu [get]
 func CPUCheck(c *gin.Context) {
 	cores, _ := cpu.Counts(false)
 	a, _ := load.Avg()
@@ -93,12 +92,13 @@ func CPUCheck(c *gin.Context) {
 	c.String(status, message)
 }
 
-// RAMCheck /sd/ram
-// @Summary check ram
+// RAMCheck
+// @Summary 服务器内存检测
+// @Description 服务器内存检测
 // @Tags healthy check
 // @Produce plain
-// @Router /sd/ram [get]
-// @Success 200 string string "服务器 RAM 健康检查"
+// @Router /api/sd/ram [get]
+// @Success 200 string string "服务器内存健康检测"
 func RAMCheck(c *gin.Context) {
 	u, _ := mem.VirtualMemory()
 

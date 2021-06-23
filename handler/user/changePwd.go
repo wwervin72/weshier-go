@@ -10,7 +10,14 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// ChangePwd ChangePwd change account password
+// ChangePwd
+// @Summary 修改密码
+// @Description 修改密码
+// @Tags user
+// @Param changePwd body request.ChangeAccountPwdReqStruct true "修改密码"
+// @Produce json
+// @Success 200 {object} string "修改密码"
+// @Router /api/user/changepwd [put]
 func ChangePwd(c *gin.Context) {
 	var data request.ChangeAccountPwdReqStruct
 	if err := c.ShouldBindJSON(&data); err != nil {

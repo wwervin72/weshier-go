@@ -11,7 +11,14 @@ import (
 	"github.com/spf13/viper"
 )
 
-// Create create article
+// Create
+// @Summary 创建文章
+// @Description 创建文章
+// @Tags article
+// @Produce json
+// @Param createArticle body request.CreateArticleReqStruct true "创建文章参数"
+// @Success 200 {object} model.ArticleModel "创建文章"
+// @Router /api/article [post]
 func Create(c *gin.Context) {
 	body := &request.CreateArticleReqStruct{}
 	if err := c.ShouldBindJSON(&body); err != nil {
