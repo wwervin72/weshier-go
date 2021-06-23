@@ -21,7 +21,7 @@
 										</router-link>
 									</li>
 									<li>
-										<router-link to="changepwd" class="ws_iconfont">
+										<router-link to="/changepwd" class="ws_iconfont">
 										修改密码
 										</router-link>
 									</li>
