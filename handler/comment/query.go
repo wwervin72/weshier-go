@@ -11,7 +11,14 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// CommentPagination comment pagination query
+// CommentPagination
+// @Summary 留言分页
+// @Description 留言分页
+// @Tags comment
+// @Produce json
+// @Param paginationParam body request.PaginationReqStruct true "分页参数"
+// @Success 200 {object} model.ArticleModel "留言分页查询成功"
+// @Router /api/comment/page [get]
 func CommentPagination(c *gin.Context) {
 	body := &request.PaginationReqStruct{}
 	if err := c.ShouldBindQuery(&body); err != nil {
@@ -40,7 +47,15 @@ func CommentPagination(c *gin.Context) {
 	return
 }
 
-// ArticleCommentPagination article comment pagination query
+// ArticleCommentPagination
+// @Summary 文章评论分页
+// @Description 文章评论分页
+// @Tags comment
+// @Produce json
+// @Param articleId path integer true "文章id"
+// @Param paginationParam body request.PaginationReqStruct true "分页参数"
+// @Success 200 {object} model.ArticleModel "文章留言查询成功"
+// @Router /api/comment/article/{articleId}/page [get]
 func ArticleCommentPagination(c *gin.Context) {
 	id := c.Param("articleId")
 	articleId, err := strconv.Atoi(id)

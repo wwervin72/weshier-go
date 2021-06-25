@@ -11,7 +11,13 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// QueryCategoryList category list query
+// QueryCategoryList
+// @Summary 查询所有分类列表
+// @Description 查询所有分类列表
+// @Tags category
+// @Produce json
+// @Success 200 {object} model.CategoryModel "查询分类列表成功"
+// @Router /api/cate/list [get]
 func QueryCategoryList(c *gin.Context) {
 	err, list := model.QueryCategoryList()
 	if err != nil {
@@ -29,7 +35,13 @@ func QueryCategoryList(c *gin.Context) {
 	return
 }
 
-// QueryCategoryList category list query
+// QueryUserCategoryList
+// @Summary 查询用户所有分类列表
+// @Description 查询用户所有分类列表
+// @Tags category
+// @Produce json
+// @Success 200 {object} model.CategoryModel "查询用户分类列表成功"
+// @Router /api/cate/user/list [get]
 func QueryUserCategoryList(c *gin.Context) {
 	err, user := handler.GetUserFromContext(c)
 	if err != nil {
@@ -53,7 +65,14 @@ func QueryUserCategoryList(c *gin.Context) {
 	return
 }
 
-// QueryCataPagination cata pagination
+// QueryCatePagination
+// @Summary 查询用户所有分类列表
+// @Description 查询用户所有分类列表
+// @Tags category
+// @Produce json
+// @Param cataPagination body request.PaginationReqStruct true "分类分页查询参数"
+// @Success 200 {object} model.CategoryModel "查询用户分类分页成功"
+// @Router /api/cate/page [get]
 func QueryCatePagination(c *gin.Context) {
 	body := &request.PaginationReqStruct{}
 	if err := c.ShouldBindQuery(&body); err != nil {

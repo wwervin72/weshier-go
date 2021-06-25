@@ -9,7 +9,14 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// Create create category
+// Create
+// @Summary 创建分类
+// @Description 创建分类
+// @Tags category
+// @Produce json
+// @Param createCate body request.CreateCategoryReqStruct true "创建分类参数"
+// @Success 200 {object} model.CategoryModel "分类创建成功"
+// @Router /api/cate [post]
 func Create(c *gin.Context) {
 	body := &request.CreateCategoryReqStruct{}
 	if err := c.ShouldBindJSON(&body); err != nil {

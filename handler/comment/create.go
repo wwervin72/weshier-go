@@ -11,7 +11,13 @@ import (
 	"go.uber.org/zap"
 )
 
-// LeaveComment leave comment fot platform
+// LeaveComment
+// @Summary 留言
+// @Description 留言
+// @Tags comment
+// @Produce json
+// @Success 200 {object} model.ArticleModel "留言成功"
+// @Router /api/comment [post]
 func LeaveComment(c *gin.Context) {
 	body := &request.CreateCommentReqStruct{}
 	if err := c.ShouldBindJSON(&body); err != nil {
@@ -40,7 +46,14 @@ func LeaveComment(c *gin.Context) {
 	return
 }
 
-// CommentArticle leave comment fot article
+// CommentArticle
+// @Summary 评论文章
+// @Description 评论文章
+// @Tags comment
+// @Produce json
+// @Param commentArticle body request.CreateArticleCommentReqStruc true "评论文章参数"
+// @Success 200 {object} model.ArticleModel "留言成功"
+// @Router /api/comment/article [post]
 func CommentArticle(c *gin.Context) {
 	body := &request.CreateArticleCommentReqStruct{}
 	if err := c.ShouldBindJSON(&body); err != nil {

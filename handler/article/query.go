@@ -40,7 +40,14 @@ func QueryArticleDetailByID(c *gin.Context) {
 	return
 }
 
-// QueryArticle[1,2,3] article list pagination query
+// QueryArticle
+// @Summary 文章分页查询
+// @Description 文章分页查询
+// @Tags article
+// @Produce json
+// @Param articlePagination body request.PaginationReqStruct true "分页查询参数"
+// @Success 200 {object} model.ArticleModel "文章分页查询成功"
+// @Router /api/article/page [get]
 func QueryArticleList(c *gin.Context) {
 	body := &request.PaginationReqStruct{}
 	if err := c.ShouldBindQuery(&body); err != nil {
@@ -69,7 +76,13 @@ func QueryArticleList(c *gin.Context) {
 	return
 }
 
-// QueryArticleStatisticByMonth article statistic
+// QueryArticleStatisticByMonth
+// @Summary 文章按月统计
+// @Description 文章按月统计
+// @Tags article
+// @Produce json
+// @Success 200 {object} model.ArticleModel "文章按月统计查询成功"
+// @Router /api/article/statistic/month [get]
 func QueryArticleStatisticByMonth(c *gin.Context) {
 	err, statistic := model.QueryArticleStatisticByMonth()
 	if err != nil {
@@ -79,7 +92,14 @@ func QueryArticleStatisticByMonth(c *gin.Context) {
 	handler.SendResponse(c, nil, statistic)
 }
 
-// QueryArticleStatisticByMonthAndUser article statistic
+// QueryArticleStatisticByMonthAndUser
+// @Summary 用户文章按月统计
+// @Description 用户文章按月统计
+// @Tags article
+// @Produce json
+// @Param userId path integer true "用户id"
+// @Success 200 {object} model.ArticleModel "用户文章按月统计查询成功"
+// @Router /api/article/statistic/month/{userId} [get]
 func QueryArticleStatisticByMonthAndUser(c *gin.Context) {
 	id := c.Param("userId")
 	intId, err := strconv.Atoi(id)

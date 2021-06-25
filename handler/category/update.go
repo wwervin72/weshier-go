@@ -9,7 +9,14 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// Create create article
+// Update
+// @Summary 更新分类
+// @Description 更新分类
+// @Tags category
+// @Produce json
+// @Param updateCate body request.UpdateCategoryReqStruct true "更新分类参数"
+// @Success 200 {object} model.CategoryModel "分类更新成功"
+// @Router /api/cate [put]
 func Update(c *gin.Context) {
 	body := &request.UpdateCategoryReqStruct{}
 	if err := c.ShouldBindJSON(&body); err != nil {
