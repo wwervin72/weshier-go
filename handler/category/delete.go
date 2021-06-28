@@ -10,7 +10,14 @@ import (
 	"github.com/jinzhu/gorm"
 )
 
-// DeleteCatagory category delete
+// DeleteCatagory
+// @Summary 删除分类
+// @Description 删除分类
+// @Tags category
+// @Produce json
+// @Param cataId path integer true "分类id"
+// @Success 200 {object} handler.Response{} "分类删除成功"
+// @Router /api/cate/{cataId} [delete]
 func DeleteCategory(c *gin.Context) {
 	id := c.Param("cateId")
 	intId, err := strconv.Atoi(id)
@@ -48,5 +55,6 @@ func DeleteCategory(c *gin.Context) {
 		handler.SendResponse(c, err, nil)
 		return
 	}
+	handler.SendResponse(c, nil, errno.CustomSuccessErrno("分类删除成功"))
 	return
 }

@@ -17,7 +17,7 @@ import (
 // @Tags article
 // @Produce json
 // @Param createArticle body request.CreateArticleReqStruct true "创建文章参数"
-// @Success 200 {object} model.ArticleModel "创建文章"
+// @Success 200 {object} handler.Response{data=model.ArticleModel} "创建文章"
 // @Router /api/article [post]
 func Create(c *gin.Context) {
 	body := &request.CreateArticleReqStruct{}

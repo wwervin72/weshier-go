@@ -14,7 +14,14 @@ import (
 	"go.uber.org/zap"
 )
 
-// UploadImg UploadImg update image
+// UploadImg
+// @Summary 文件上传
+// @Description 文件上传
+// @Tags file
+// @Produce json
+// @Param file formData file true "文件"
+// @Success 200 {object} handler.Response{data=response.UploadImageResStruct} "图片上传成功"
+// @Router /api/file/upload/img [post]
 func UploadImg(c *gin.Context) {
 	savePath := path.Join(viper.GetString("upload.saveDir"), model.ImageDir)
 	err, url, _, _ := util.UploadFile(c, savePath, model.ImageDir, 100)
@@ -27,7 +34,14 @@ func UploadImg(c *gin.Context) {
 	})
 }
 
-// UploadThumbnail UploadThumbnail upload thumbnail
+// UploadThumbnail
+// @Summary 缩略图上传
+// @Description 缩略图上传
+// @Tags file
+// @Produce json
+// @Param file formData file true "缩略图"
+// @Success 200 {object} handler.Response{data=response.UploadImageResStruct} "缩略图上传成功"
+// @Router /api/file/upload/thumbnail [post]
 func UploadThumbnail(c *gin.Context) {
 	savePath := path.Join(viper.GetString("upload.saveDir"), model.ThumbnailDir)
 	err, url, filename, size := util.UploadFile(c, savePath, model.ThumbnailDir, 100)
@@ -60,6 +74,14 @@ func UploadThumbnail(c *gin.Context) {
 	})
 }
 
+// UploadAnnex
+// @Summary 附件上传
+// @Description 附件上传
+// @Tags file
+// @Produce json
+// @Param annex formData file true "附件"
+// @Success 200 {object} handler.Response{data=response.UploadAnnexResStruct} "附件上传成功"
+// @Router /api/file/upload/annex [post]
 func UploadAnnex(c *gin.Context) {
 	savePath := path.Join(viper.GetString("upload.saveDir"), model.AnnexDir)
 	err, url, filename, size := util.UploadFile(c, savePath, model.AnnexDir, 100)

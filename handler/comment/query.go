@@ -16,8 +16,8 @@ import (
 // @Description 留言分页
 // @Tags comment
 // @Produce json
-// @Param paginationParam body request.PaginationReqStruct true "分页参数"
-// @Success 200 {object} model.ArticleModel "留言分页查询成功"
+// @Param PaginationParam body request.PaginationReqStruct true "分页参数"
+// @Success 200 {object} handler.Response{data=response.PaginationDataStruct{list=[]model.CommentModel}} "留言分页查询成功"
 // @Router /api/comment/page [get]
 func CommentPagination(c *gin.Context) {
 	body := &request.PaginationReqStruct{}
@@ -54,7 +54,7 @@ func CommentPagination(c *gin.Context) {
 // @Produce json
 // @Param articleId path integer true "文章id"
 // @Param paginationParam body request.PaginationReqStruct true "分页参数"
-// @Success 200 {object} model.ArticleModel "文章留言查询成功"
+// @Success 200 {object} handler.Response{data=response.PaginationDataStruct{list=[]model.CommentModel}} "文章留言查询成功"
 // @Router /api/comment/article/{articleId}/page [get]
 func ArticleCommentPagination(c *gin.Context) {
 	id := c.Param("articleId")

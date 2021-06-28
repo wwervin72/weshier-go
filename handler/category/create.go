@@ -15,7 +15,7 @@ import (
 // @Tags category
 // @Produce json
 // @Param createCate body request.CreateCategoryReqStruct true "创建分类参数"
-// @Success 200 {object} model.CategoryModel "分类创建成功"
+// @Success 200 {object} handler.Response{data=model.CategoryModel} "分类创建成功"
 // @Router /api/cate [post]
 func Create(c *gin.Context) {
 	body := &request.CreateCategoryReqStruct{}

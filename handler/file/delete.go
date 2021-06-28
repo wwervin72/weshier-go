@@ -9,6 +9,14 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// DeleteThumbnail
+// @Summary 删除缩略图
+// @Description 删除缩略图
+// @Tags file
+// @Produce json
+// @Param thumbnailId path integer true "缩略图ID"
+// @Success 200 {object} handler.Response{} "缩略图删除成功"
+// @Router /api/file/thumbnails/{thumbnailId} [delete]
 func DeleteThumbnail(c *gin.Context) {
 	id := c.Param("thumbnailId")
 	intId, err := strconv.Atoi(id)

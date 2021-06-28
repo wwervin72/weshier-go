@@ -14,7 +14,7 @@ import (
 // @Description 退出登录
 // @Tags user
 // @Produce json
-// @Success 200 {object} string "退出登录"
+// @Success 200 {object} handler.Response{} "退出登录"
 // @Router /api/user/logout [get]
 func Logout(c *gin.Context) {
 	tokenKey, err := token.ParseRequest(c)

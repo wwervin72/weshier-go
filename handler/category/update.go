@@ -15,7 +15,7 @@ import (
 // @Tags category
 // @Produce json
 // @Param updateCate body request.UpdateCategoryReqStruct true "更新分类参数"
-// @Success 200 {object} model.CategoryModel "分类更新成功"
+// @Success 200 {object} handler.Response{} "分类更新成功"
 // @Router /api/cate [put]
 func Update(c *gin.Context) {
 	body := &request.UpdateCategoryReqStruct{}
@@ -33,6 +33,6 @@ func Update(c *gin.Context) {
 		handler.SendResponse(c, err, nil)
 		return
 	}
-	handler.SendResponse(c, nil, nil)
+	handler.SendResponse(c, nil, errno.CustomSuccessErrno("分类更新成功"))
 	return
 }

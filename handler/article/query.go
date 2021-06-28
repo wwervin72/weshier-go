@@ -17,8 +17,8 @@ import (
 // @Description 通过id查询文章详情
 // @Tags article
 // @Produce json
-// @Param Param path string true "查询文章详情参数"
-// @Success 200 {object} model.ArticleModel "通过id查询文章详情"
+// @Param articleId path integer true "文章id"
+// @Success 200 {object} handler.Response{data=model.ArticleModel} "文章详情查询成功"
 // @Router /api/article/detail/{articleId} [get]
 func QueryArticleDetailByID(c *gin.Context) {
 	id := c.Param("articleId")
@@ -40,13 +40,13 @@ func QueryArticleDetailByID(c *gin.Context) {
 	return
 }
 
-// QueryArticle
+// QueryArticleList
 // @Summary 文章分页查询
 // @Description 文章分页查询
 // @Tags article
 // @Produce json
-// @Param articlePagination body request.PaginationReqStruct true "分页查询参数"
-// @Success 200 {object} model.ArticleModel "文章分页查询成功"
+// @Param PaginationParam body request.PaginationReqStruct true "分页查询参数"
+// @Success 200 {object} handler.Response{data=response.PaginationDataStruct{list=[]model.ArticleModel}} "文章分页查询成功"
 // @Router /api/article/page [get]
 func QueryArticleList(c *gin.Context) {
 	body := &request.PaginationReqStruct{}
@@ -81,7 +81,7 @@ func QueryArticleList(c *gin.Context) {
 // @Description 文章按月统计
 // @Tags article
 // @Produce json
-// @Success 200 {object} model.ArticleModel "文章按月统计查询成功"
+// @Success 200 {object} handler.Response{data=[]response.ArticleMonthStatisticResStruct} "文章按月统计查询成功"
 // @Router /api/article/statistic/month [get]
 func QueryArticleStatisticByMonth(c *gin.Context) {
 	err, statistic := model.QueryArticleStatisticByMonth()
@@ -98,7 +98,7 @@ func QueryArticleStatisticByMonth(c *gin.Context) {
 // @Tags article
 // @Produce json
 // @Param userId path integer true "用户id"
-// @Success 200 {object} model.ArticleModel "用户文章按月统计查询成功"
+// @Success 200 {object} handler.Response{data=[]response.ArticleMonthStatisticResStruct} "用户文章按月统计查询成功"
 // @Router /api/article/statistic/month/{userId} [get]
 func QueryArticleStatisticByMonthAndUser(c *gin.Context) {
 	id := c.Param("userId")

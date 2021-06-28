@@ -16,7 +16,7 @@ import (
 // @Tags user
 // @Param changePwd body request.ChangeAccountPwdReqStruct true "修改密码"
 // @Produce json
-// @Success 200 {object} string "修改密码"
+// @Success 200 {object} handler.Response{} "修改密码"
 // @Router /api/user/changepwd [put]
 func ChangePwd(c *gin.Context) {
 	var data request.ChangeAccountPwdReqStruct

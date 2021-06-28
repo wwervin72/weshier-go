@@ -22,7 +22,7 @@ import (
 // @Tags user
 // @Param login body LoginReqStruct true "登录账号"
 // @Produce json
-// @Success 200 {object} handler.Response{LoginResStruct} "登录成功"
+// @Success 200 {object} handler.Response{data=LoginResStruct} "登录成功"
 // @Router /api/user/login [post]
 func Login(c *gin.Context) {
 	var u LoginReqStruct
@@ -61,7 +61,7 @@ func Login(c *gin.Context) {
 // @Tags user
 // @Param code query string true "github 返回的 code"
 // @Produce json
-// @Success 200 {object} handler.Response{LoginResStruct} "github 登录成功"
+// @Success 200 {object} handler.Response{data=LoginResStruct} "github 登录成功"
 // @Router /api/user/auth/github/callback [get]
 func GithubLogin(c *gin.Context) {
 	code := c.Query("code")

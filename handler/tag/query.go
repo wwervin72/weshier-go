@@ -11,7 +11,13 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// QueryTagList tag list query
+// QueryTagList
+// @Summary tag列表查询
+// @Description tag列表查询
+// @Tags tag
+// @Produce json
+// @Success 200 {object} handler.Response{data=[]response.DropdownListResStruct{}} "tag列表查询成功"
+// @Router /api/tag/list [get]
 func QueryTagList(c *gin.Context) {
 	err, list := model.QueryTagList()
 	if err != nil {
@@ -29,7 +35,13 @@ func QueryTagList(c *gin.Context) {
 	return
 }
 
-// QueryUserTagList tag list query
+// QueryUserTagList
+// @Summary 用户tag列表查询
+// @Description 用户tag列表查询
+// @Tags tag
+// @Produce json
+// @Success 200 {object} handler.Response{data=[]response.DropdownListResStruct{}} "用户tag列表查询成功"
+// @Router /api/tag/user/list [get]
 func QueryUserTagList(c *gin.Context) {
 	err, user := handler.GetUserFromContext(c)
 	if err != nil {
@@ -52,7 +64,13 @@ func QueryUserTagList(c *gin.Context) {
 	return
 }
 
-// QueryTagInfo tag info query
+// QueryTagInfo
+// @Summary tag详情查询
+// @Description tag详情查询
+// @Tags tag
+// @Produce json
+// @Success 200 {object} handler.Response{data=model.TagModel} "tag详情查询成功"
+// @Router /api/tag/detail/{tagId} [get]
 func QueryTagInfo(c *gin.Context) {
 	id := c.Param("tagId")
 	intId, err := strconv.Atoi(id)
@@ -74,7 +92,13 @@ func QueryTagInfo(c *gin.Context) {
 	return
 }
 
-// QueryArticleStatisticByMonth article statistic
+// QueryTagArticleStatistic
+// @Summary tag文章数按月统计查询
+// @Description tag文章数按月统计查询
+// @Tags tag
+// @Produce json
+// @Success 200 {object} handler.Response{data=[]response.ArticleTagStatisticResStruct} "tag文章数按月统计查询成功"
+// @Router /api/tag/statistic/article [get]
 func QueryTagArticleStatistic(c *gin.Context) {
 	err, statistic := model.QueryTagArticleStatistic()
 	if err != nil {
@@ -84,7 +108,14 @@ func QueryTagArticleStatistic(c *gin.Context) {
 	handler.SendResponse(c, nil, statistic)
 }
 
-// QueryArticleStatisticByMonth article statistic
+// QueryUserTagArticleStatistic
+// @Summary 用户tag文章数按月统计查询
+// @Description 用户tag文章数按月统计查询
+// @Tags tag
+// @Produce json
+// @Param userId path integer true "用户id"
+// @Success 200 {object} handler.Response{data=[]response.ArticleTagStatisticResStruct} "用户tag按月统计查询成功"
+// @Router /api/tag/statistic/article/{userId} [get]
 func QueryUserTagArticleStatistic(c *gin.Context) {
 	id := c.Param("userId")
 	intId, err := strconv.Atoi(id)
@@ -98,9 +129,17 @@ func QueryUserTagArticleStatistic(c *gin.Context) {
 		return
 	}
 	handler.SendResponse(c, nil, statistic)
+	return
 }
 
-// QueryTagPagination tag pagination
+// QueryTagPagination
+// @Summary tag分页查询
+// @Description tag分页查询
+// @Tags tag
+// @Produce json
+// @Param PaginationParam body request.PaginationReqStruct true "分页查询参数"
+// @Success 200 {object} handler.Response{data=response.PaginationDataStruct{list=[]model.TagModel}} "tag分页查询成功"
+// @Router /api/tag/page [get]
 func QueryTagPagination(c *gin.Context) {
 	body := &request.PaginationReqStruct{}
 	if err := c.ShouldBindQuery(&body); err != nil {

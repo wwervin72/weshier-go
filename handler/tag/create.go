@@ -15,7 +15,7 @@ import (
 // @Tags tag
 // @Produce json
 // @Param createTagParam body request.CreateTagReqStruct true "创建tag参数"
-// @Success 200 {object} model.ArticleModel "tag创建成功"
+// @Success 200 {object} handler.Response{data=model.TagModel} "tag创建成功"
 // @Router /api/tag [post]
 func Create(c *gin.Context) {
 	body := &request.CreateTagReqStruct{}

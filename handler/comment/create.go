@@ -16,7 +16,8 @@ import (
 // @Description 留言
 // @Tags comment
 // @Produce json
-// @Success 200 {object} model.ArticleModel "留言成功"
+// @Param commentReqBody body request.CreateCommentReqStruct true "留言请求体内容"
+// @Success 200 {object} handler.Response{data=model.CommentModel} "留言成功"
 // @Router /api/comment [post]
 func LeaveComment(c *gin.Context) {
 	body := &request.CreateCommentReqStruct{}
@@ -51,8 +52,8 @@ func LeaveComment(c *gin.Context) {
 // @Description 评论文章
 // @Tags comment
 // @Produce json
-// @Param commentArticle body request.CreateArticleCommentReqStruc true "评论文章参数"
-// @Success 200 {object} model.ArticleModel "留言成功"
+// @Param commentArticle body request.CreateArticleCommentReqStruct true "评论文章参数"
+// @Success 200 {object} handler.Response{data=model.CommentModel} "留言成功"
 // @Router /api/comment/article [post]
 func CommentArticle(c *gin.Context) {
 	body := &request.CreateArticleCommentReqStruct{}

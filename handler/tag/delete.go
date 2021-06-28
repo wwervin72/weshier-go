@@ -10,7 +10,14 @@ import (
 	"github.com/jinzhu/gorm"
 )
 
-// DeleteTag tag delete
+// DeleteTag
+// @Summary tag删除
+// @Description tag删除
+// @Tags tag
+// @Produce json
+// @Param tagId path integer true "tagId"
+// @Success 200 {object} handler.Response{} "tag删除成功"
+// @Router /api/tag/{tagId} [delete]
 func DeleteTag(c *gin.Context) {
 	id := c.Param("tagId")
 	intId, err := strconv.Atoi(id)
@@ -48,5 +55,6 @@ func DeleteTag(c *gin.Context) {
 		handler.SendResponse(c, err, nil)
 		return
 	}
+	handler.SendResponse(c, nil, errno.CustomSuccessErrno("标签删除成功"))
 	return
 }

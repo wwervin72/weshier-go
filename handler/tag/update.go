@@ -15,7 +15,7 @@ import (
 // @Tags tag
 // @Produce json
 // @Param updateTagParam body request.UpdateTagReqStruct true "更新tag参数"
-// @Success 200 {object} model.ArticleModel "tag更新成功"
+// @Success 200 {object} handler.Response{} "tag更新成功"
 // @Router /api/tag [put]
 func Update(c *gin.Context) {
 	body := &request.UpdateTagReqStruct{}
@@ -33,6 +33,6 @@ func Update(c *gin.Context) {
 		handler.SendResponse(c, err, nil)
 		return
 	}
-	handler.SendResponse(c, nil, nil)
+	handler.SendResponse(c, nil, errno.CustomSuccessErrno("tag更新成功"))
 	return
 }

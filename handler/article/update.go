@@ -15,7 +15,7 @@ import (
 // @Tags article
 // @Produce json
 // @Param updateArticle body request.UpdateArticleReqStruct true "更新文章参数"
-// @Success 200 {object} string "更新文章"
+// @Success 200 {object} handler.Response{} "更新文章"
 // @Router /api/article [put]
 func Update(c *gin.Context) {
 	body := &request.UpdateArticleReqStruct{}

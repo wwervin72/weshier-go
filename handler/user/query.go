@@ -14,7 +14,7 @@ import (
 // @Description 使用 token 查询用户登录信息
 // @Tags user
 // @Produce json
-// @Success 200 {object} LoginResStruct "使用 token 查询用户信息"
+// @Success 200 {object} handler.Response{data=LoginResStruct} "使用 token 查询用户信息"
 // @Router /api/user [get]
 func QueryUserInfo(c *gin.Context) {
 	err, u := handler.GetUserFromContext(c)

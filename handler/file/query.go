@@ -10,6 +10,13 @@ import (
 	"github.com/spf13/viper"
 )
 
+// QueryThumbnailList
+// @Summary 缩略图列表查询
+// @Description 缩略图列表查询
+// @Tags file
+// @Produce json
+// @Success 200 {object} handler.Response{data=[]response.FileListResStruct{}} "缩略图列表查询成功"
+// @Router /api/file/thumbnails [get]
 func QueryThumbnailList(c *gin.Context) {
 	err, user := handler.GetUserFromContext(c)
 	if err != nil {
