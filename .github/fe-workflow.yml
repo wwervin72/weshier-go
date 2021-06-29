@@ -1,0 +1,61 @@
+name: weshier-frontend-workflow
+
+on: workflow_dispatch
+
+jobs:
+	build-docker-image
+    runs-on: centos7
+    strategy:
+      matrix:
+        node-version: [12.x]
+    steps:
+	  - name: checkout repository
+      - uses: actions/checkout@v2
+
+	    # 设置服务器时区为东八区
+      - name: Set time zone
+        run: sudo timedatectl set-timezone 'Asia/Shanghai'
+
+      # 设置 node 环境版本
+      - name: use nodejs ${{matrix.node-version}}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${matrix.node-version}
+
+      # 安装 npm 依赖
+      - name: install dependencies
+        run: cd fe-vue && npm install
+
+      - name: deploy build
+        run: pwd && ls -l && npm run build
+        env:
+          VUE_APP_NAME: ${{secrets.VUE_APP_NAME}}
+          VUE_APP_BASE_API: ${{secrets.VUE_APP_BASE_API}}
+          VUE_APP_PUBLIC_BASE_URL: ${{secrets.VUE_APP_PUBLIC_BASE_URL}}
+          VUE_APP_GITHUB_CLIENT_ID: ${{secrets.VUE_APP_GITHUB_CLIENT_ID}}
+		  VUE_APP_GITHUB_REDIRECT_URI: ${{secrets.VUE_APP_GITHUB_REDIRECT_URI}}
+
+	  - name: login to docker hub
+		uses: docker/login-action@v1
+		with:
+          username: ${{ secrets.DOCKER_HUB_USERNAME }}
+          password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+
+	  - name: set up docker buildx
+	  	id: buildx
+	    run: docker/setup-buildx-action@v1
+
+	  - name: build docker image and push
+	  	id: docker_build
+	    run: docker/build-push-action@v2
+		with:
+          context: ./
+          file: ./Dockerfile
+          push: true
+          tags: weshierfe:latest
+
+	  - name: Image digest
+        run: echo ${{ steps.docker_build.outputs.digest }}
+
+    #   - name: run
+		# run: ssh -o StrictHostKeyChecking=no -p 22 root@${{ secrets.WESHIER_NVM_TOKEN }} "cd "
