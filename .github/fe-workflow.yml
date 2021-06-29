@@ -4,7 +4,7 @@ on: workflow_dispatch
 
 jobs:
 	build-docker-image
-    runs-on: centos7
+    runs-on: ubuntu-latest
     strategy:
       matrix:
         node-version: [12.x]
