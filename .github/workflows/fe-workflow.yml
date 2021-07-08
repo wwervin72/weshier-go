@@ -29,7 +29,7 @@ jobs:
         run: cd fe-vue && npm install
 
       - name: deploy build
-        run: pwd && ls -l && npm run build
+        run: cd fe-vue && pwd && npm run build
         env:
           VUE_APP_NAME: ${{secrets.VUE_APP_NAME}}
           VUE_APP_BASE_API: ${{secrets.VUE_APP_BASE_API}}
@@ -47,8 +47,8 @@ jobs:
         id: docker_build
         uses: mr-smithers-excellent/docker-build-push@v5
         with:
-          context: ./
-          file: ./Dockerfile
+          context: ./fe-vue/
+          file: ./fe-vue/Dockerfile
           push: true
           tags: weshierfe:latest
 
