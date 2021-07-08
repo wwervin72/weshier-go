@@ -1,8 +1,8 @@
 name: weshier-frontend-workflow
 
-on:
+on: workflow_dispatch
   # 手动触发
-  workflow_dispatch:
+  # workflow_dispatch:
 
 jobs:
   build-docker-image:
