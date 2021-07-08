@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [14.x]
+        node-version: [12.18.0]
     steps:
       - name: checkout repository
         uses: actions/checkout@v2
@@ -22,7 +22,7 @@ jobs:
       - name: use nodejs ${{matrix.node-version}}
         uses: actions/setup-node@v1
         with:
-          node-version: ${matrix.node-version}
+          node-version: ${{matrix.node-version}}
 
       # 安装 npm 依赖
       - name: install dependencies
