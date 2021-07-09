@@ -25,7 +25,6 @@ fe-vue/yarn-error.log*
 tmp/
 conf/config.json
 log/*
-docs/*
 
 .DS_Store
 .idea

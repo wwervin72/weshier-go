@@ -1,0 +1,2292 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "contact": {}
+    },
+    "paths": {
+        "/api/article": {
+            "put": {
+                "description": "更新文章",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "article"
+                ],
+                "summary": "更新文章",
+                "parameters": [
+                    {
+                        "description": "更新文章参数",
+                        "name": "updateArticle",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/request.UpdateArticleReqStruct"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "更新文章",
+                        "schema": {
+                            "$ref": "#/definitions/handler.Response"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "创建文章",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "article"
+                ],
+                "summary": "创建文章",
+                "parameters": [
+                    {
+                        "description": "创建文章参数",
+                        "name": "createArticle",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/request.CreateArticleReqStruct"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "创建文章",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/handler.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/model.ArticleModel"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/api/article/detail/{articleId}": {
+            "get": {
+                "description": "通过id查询文章详情",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "article"
+                ],
+                "summary": "查询文章详情",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "文章id",
+                        "name": "articleId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "文章详情查询成功",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/handler.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/model.ArticleModel"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/api/article/page": {
+            "get": {
+                "description": "文章分页查询",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "article"
+                ],
+                "summary": "文章分页查询",
+                "parameters": [
+                    {
+                        "description": "分页查询参数",
+                        "name": "PaginationParam",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/request.PaginationReqStruct"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "文章分页查询成功",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/handler.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "allOf": [
+                                                {
+                                                    "$ref": "#/definitions/response.PaginationDataStruct"
+                                                },
+                                                {
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "list": {
+                                                            "type": "array",
+                                                            "items": {
+                                                                "$ref": "#/definitions/model.ArticleModel"
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/api/article/statistic/month": {
+            "get": {
+                "description": "文章按月统计",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "article"
+                ],
+                "summary": "文章按月统计",
+                "responses": {
+                    "200": {
+                        "description": "文章按月统计查询成功",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/handler.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/definitions/response.ArticleMonthStatisticResStruct"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/api/article/statistic/month/{userId}": {
+            "get": {
+                "description": "用户文章按月统计",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "article"
+                ],
+                "summary": "用户文章按月统计",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "用户id",
+                        "name": "userId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "用户文章按月统计查询成功",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/handler.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/definitions/response.ArticleMonthStatisticResStruct"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/api/cate": {
+            "put": {
+                "description": "更新分类",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "category"
+                ],
+                "summary": "更新分类",
+                "parameters": [
+                    {
+                        "description": "更新分类参数",
+                        "name": "updateCate",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/request.UpdateCategoryReqStruct"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "分类更新成功",
+                        "schema": {
+                            "$ref": "#/definitions/handler.Response"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "创建分类",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "category"
+                ],
+                "summary": "创建分类",
+                "parameters": [
+                    {
+                        "description": "创建分类参数",
+                        "name": "createCate",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/request.CreateCategoryReqStruct"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "分类创建成功",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/handler.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/model.CategoryModel"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/api/cate/detail/{cataId}": {
+            "get": {
+                "description": "查询分类详情",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "category"
+                ],
+                "summary": "查询分类详情",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "分类id",
+                        "name": "cataId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "分类详情查询成功",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/handler.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/model.CategoryModel"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/api/cate/list": {
+            "get": {
+                "description": "查询所有分类列表",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "category"
+                ],
+                "summary": "查询所有分类列表",
+                "responses": {
+                    "200": {
+                        "description": "查询分类列表成功",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/handler.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/definitions/response.DropdownListResStruct"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/api/cate/page": {
+            "get": {
+                "description": "查询用户所有分类列表",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "category"
+                ],
+                "summary": "查询用户所有分类列表",
+                "parameters": [
+                    {
+                        "description": "分类分页查询参数",
+                        "name": "PaginationParam",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/request.PaginationReqStruct"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "查询用户分类分页成功",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/handler.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "allOf": [
+                                                {
+                                                    "$ref": "#/definitions/response.PaginationDataStruct"
+                                                },
+                                                {
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "list": {
+                                                            "type": "array",
+                                                            "items": {
+                                                                "$ref": "#/definitions/model.CategoryModel"
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/api/cate/user/list": {
+            "get": {
+                "description": "查询用户所有分类列表",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "category"
+                ],
+                "summary": "查询用户所有分类列表",
+                "responses": {
+                    "200": {
+                        "description": "查询用户分类列表成功",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/handler.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/definitions/response.DropdownListResStruct"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/api/cate/{cataId}": {
+            "delete": {
+                "description": "删除分类",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "category"
+                ],
+                "summary": "删除分类",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "分类id",
+                        "name": "cataId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "分类删除成功",
+                        "schema": {
+                            "$ref": "#/definitions/handler.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/comment": {
+            "post": {
+                "description": "留言",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "comment"
+                ],
+                "summary": "留言",
+                "parameters": [
+                    {
+                        "description": "留言请求体内容",
+                        "name": "commentReqBody",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/request.CreateCommentReqStruct"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "留言成功",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/handler.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/model.CommentModel"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/api/comment/article": {
+            "post": {
+                "description": "评论文章",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "comment"
+                ],
+                "summary": "评论文章",
+                "parameters": [
+                    {
+                        "description": "评论文章参数",
+                        "name": "commentArticle",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/request.CreateArticleCommentReqStruct"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "留言成功",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/handler.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/model.CommentModel"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/api/comment/article/{articleId}/page": {
+            "get": {
+                "description": "文章评论分页",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "comment"
+                ],
+                "summary": "文章评论分页",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "文章id",
+                        "name": "articleId",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "分页参数",
+                        "name": "paginationParam",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/request.PaginationReqStruct"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "文章留言查询成功",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/handler.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "allOf": [
+                                                {
+                                                    "$ref": "#/definitions/response.PaginationDataStruct"
+                                                },
+                                                {
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "list": {
+                                                            "type": "array",
+                                                            "items": {
+                                                                "$ref": "#/definitions/model.CommentModel"
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/api/comment/page": {
+            "get": {
+                "description": "留言分页",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "comment"
+                ],
+                "summary": "留言分页",
+                "parameters": [
+                    {
+                        "description": "分页参数",
+                        "name": "PaginationParam",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/request.PaginationReqStruct"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "留言分页查询成功",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/handler.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "allOf": [
+                                                {
+                                                    "$ref": "#/definitions/response.PaginationDataStruct"
+                                                },
+                                                {
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "list": {
+                                                            "type": "array",
+                                                            "items": {
+                                                                "$ref": "#/definitions/model.CommentModel"
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/api/file/thumbnails": {
+            "get": {
+                "description": "缩略图列表查询",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "file"
+                ],
+                "summary": "缩略图列表查询",
+                "responses": {
+                    "200": {
+                        "description": "缩略图列表查询成功",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/handler.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/definitions/response.FileListResStruct"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/api/file/thumbnails/{thumbnailId}": {
+            "delete": {
+                "description": "删除缩略图",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "file"
+                ],
+                "summary": "删除缩略图",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "缩略图ID",
+                        "name": "thumbnailId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "缩略图删除成功",
+                        "schema": {
+                            "$ref": "#/definitions/handler.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/file/upload/annex": {
+            "post": {
+                "description": "附件上传",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "file"
+                ],
+                "summary": "附件上传",
+                "parameters": [
+                    {
+                        "type": "file",
+                        "description": "附件",
+                        "name": "annex",
+                        "in": "formData",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "附件上传成功",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/handler.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/response.UploadAnnexResStruct"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/api/file/upload/img": {
+            "post": {
+                "description": "文件上传",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "file"
+                ],
+                "summary": "文件上传",
+                "parameters": [
+                    {
+                        "type": "file",
+                        "description": "文件",
+                        "name": "file",
+                        "in": "formData",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "图片上传成功",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/handler.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/response.UploadImageResStruct"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/api/file/upload/thumbnail": {
+            "post": {
+                "description": "缩略图上传",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "file"
+                ],
+                "summary": "缩略图上传",
+                "parameters": [
+                    {
+                        "type": "file",
+                        "description": "缩略图",
+                        "name": "file",
+                        "in": "formData",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "缩略图上传成功",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/handler.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/response.UploadImageResStruct"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/api/sd/cpu": {
+            "get": {
+                "description": "服务器 cpu 检测",
+                "produces": [
+                    "text/plain"
+                ],
+                "tags": [
+                    "healthy check"
+                ],
+                "summary": "服务器 cpu 检测",
+                "responses": {
+                    "200": {
+                        "description": "服务器 cpu 健康检测",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/sd/disk": {
+            "get": {
+                "description": "服务器磁盘使用检测",
+                "produces": [
+                    "text/plain"
+                ],
+                "tags": [
+                    "healthy check"
+                ],
+                "summary": "服务器磁盘检测",
+                "responses": {
+                    "200": {
+                        "description": "服务器磁盘健康检测",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/sd/health": {
+            "get": {
+                "description": "服务器健康检测",
+                "produces": [
+                    "text/plain"
+                ],
+                "tags": [
+                    "healthy check"
+                ],
+                "summary": "服务器健康检测",
+                "responses": {
+                    "200": {
+                        "description": "服务器健康检测",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/sd/ram": {
+            "get": {
+                "description": "服务器内存检测",
+                "produces": [
+                    "text/plain"
+                ],
+                "tags": [
+                    "healthy check"
+                ],
+                "summary": "服务器内存检测",
+                "responses": {
+                    "200": {
+                        "description": "服务器内存健康检测",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/tag": {
+            "put": {
+                "description": "更新tag",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "tag"
+                ],
+                "summary": "更新tag",
+                "parameters": [
+                    {
+                        "description": "更新tag参数",
+                        "name": "updateTagParam",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/request.UpdateTagReqStruct"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "tag更新成功",
+                        "schema": {
+                            "$ref": "#/definitions/handler.Response"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "创建tag",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "tag"
+                ],
+                "summary": "创建tag",
+                "parameters": [
+                    {
+                        "description": "创建tag参数",
+                        "name": "createTagParam",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/request.CreateTagReqStruct"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "tag创建成功",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/handler.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/model.TagModel"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/api/tag/detail/{tagId}": {
+            "get": {
+                "description": "tag详情查询",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "tag"
+                ],
+                "summary": "tag详情查询",
+                "responses": {
+                    "200": {
+                        "description": "tag详情查询成功",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/handler.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/model.TagModel"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/api/tag/list": {
+            "get": {
+                "description": "tag列表查询",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "tag"
+                ],
+                "summary": "tag列表查询",
+                "responses": {
+                    "200": {
+                        "description": "tag列表查询成功",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/handler.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/definitions/response.DropdownListResStruct"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/api/tag/page": {
+            "get": {
+                "description": "tag分页查询",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "tag"
+                ],
+                "summary": "tag分页查询",
+                "parameters": [
+                    {
+                        "description": "分页查询参数",
+                        "name": "PaginationParam",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/request.PaginationReqStruct"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "tag分页查询成功",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/handler.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "allOf": [
+                                                {
+                                                    "$ref": "#/definitions/response.PaginationDataStruct"
+                                                },
+                                                {
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "list": {
+                                                            "type": "array",
+                                                            "items": {
+                                                                "$ref": "#/definitions/model.TagModel"
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/api/tag/statistic/article": {
+            "get": {
+                "description": "tag文章数按月统计查询",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "tag"
+                ],
+                "summary": "tag文章数按月统计查询",
+                "responses": {
+                    "200": {
+                        "description": "tag文章数按月统计查询成功",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/handler.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/definitions/response.ArticleTagStatisticResStruct"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/api/tag/statistic/article/{userId}": {
+            "get": {
+                "description": "用户tag文章数按月统计查询",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "tag"
+                ],
+                "summary": "用户tag文章数按月统计查询",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "用户id",
+                        "name": "userId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "用户tag按月统计查询成功",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/handler.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/definitions/response.ArticleTagStatisticResStruct"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/api/tag/user/list": {
+            "get": {
+                "description": "用户tag列表查询",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "tag"
+                ],
+                "summary": "用户tag列表查询",
+                "responses": {
+                    "200": {
+                        "description": "用户tag列表查询成功",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/handler.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/definitions/response.DropdownListResStruct"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/api/tag/{tagId}": {
+            "delete": {
+                "description": "tag删除",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "tag"
+                ],
+                "summary": "tag删除",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "tagId",
+                        "name": "tagId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "tag删除成功",
+                        "schema": {
+                            "$ref": "#/definitions/handler.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/user": {
+            "get": {
+                "description": "使用 token 查询用户登录信息",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "user"
+                ],
+                "summary": "查询用户信息",
+                "responses": {
+                    "200": {
+                        "description": "使用 token 查询用户信息",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/handler.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/user.LoginResStruct"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/api/user/auth/github/callback": {
+            "get": {
+                "description": "github 登录回调",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "user"
+                ],
+                "summary": "github 登录回调",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "github 返回的 code",
+                        "name": "code",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "github 登录成功",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/handler.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/user.LoginResStruct"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/api/user/changepwd": {
+            "put": {
+                "description": "修改密码",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "user"
+                ],
+                "summary": "修改密码",
+                "parameters": [
+                    {
+                        "description": "修改密码",
+                        "name": "changePwd",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/request.ChangeAccountPwdReqStruct"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "修改密码",
+                        "schema": {
+                            "$ref": "#/definitions/handler.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/user/login": {
+            "post": {
+                "description": "用户登录",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "user"
+                ],
+                "summary": "用户登录",
+                "parameters": [
+                    {
+                        "description": "登录账号",
+                        "name": "login",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/user.LoginReqStruct"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "登录成功",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/handler.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/user.LoginResStruct"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/api/user/logout": {
+            "get": {
+                "description": "退出登录",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "user"
+                ],
+                "summary": "退出登录",
+                "responses": {
+                    "200": {
+                        "description": "退出登录",
+                        "schema": {
+                            "$ref": "#/definitions/handler.Response"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "handler.Response": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "integer"
+                },
+                "data": {
+                    "type": "object"
+                },
+                "message": {
+                    "type": "string"
+                }
+            }
+        },
+        "model.AnnexModel": {
+            "type": "object",
+            "properties": {
+                "article": {
+                    "$ref": "#/definitions/model.ArticleModel"
+                },
+                "articleId": {
+                    "type": "integer"
+                },
+                "createdAt": {
+                    "type": "string"
+                },
+                "desc": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "size": {
+                    "type": "integer"
+                },
+                "updatedAt": {
+                    "type": "string"
+                },
+                "url": {
+                    "type": "string"
+                },
+                "user": {
+                    "$ref": "#/definitions/model.UserModel"
+                },
+                "userId": {
+                    "type": "integer"
+                }
+            }
+        },
+        "model.ArticleAnnexModel": {
+            "type": "object",
+            "properties": {
+                "annex": {
+                    "$ref": "#/definitions/model.AnnexModel"
+                },
+                "annexId": {
+                    "type": "integer"
+                },
+                "article": {
+                    "$ref": "#/definitions/model.ArticleModel"
+                },
+                "articleId": {
+                    "type": "integer"
+                },
+                "createdAt": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "updatedAt": {
+                    "type": "string"
+                }
+            }
+        },
+        "model.ArticleModel": {
+            "type": "object",
+            "required": [
+                "categoryId",
+                "content",
+                "title"
+            ],
+            "properties": {
+                "abstract": {
+                    "type": "string"
+                },
+                "allowComment": {
+                    "type": "integer"
+                },
+                "annexs": {
+                    "type": "array",
+                    "items": {
+                        "type": "integer"
+                    }
+                },
+                "annexsEntity": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/model.ArticleAnnexModel"
+                    }
+                },
+                "author": {
+                    "$ref": "#/definitions/model.UserModel"
+                },
+                "authorId": {
+                    "type": "integer"
+                },
+                "categoryId": {
+                    "type": "integer"
+                },
+                "content": {
+                    "type": "string"
+                },
+                "createdAt": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "password": {
+                    "type": "string"
+                },
+                "tags": {
+                    "type": "array",
+                    "items": {
+                        "type": "integer"
+                    }
+                },
+                "tagsEntity": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/model.ArticleTagModel"
+                    }
+                },
+                "thumbnail": {
+                    "type": "string"
+                },
+                "thumbnailEntity": {
+                    "$ref": "#/definitions/model.ThumbnailModel"
+                },
+                "title": {
+                    "type": "string"
+                },
+                "topping": {
+                    "type": "integer"
+                },
+                "updatedAt": {
+                    "type": "string"
+                }
+            }
+        },
+        "model.ArticleTagModel": {
+            "type": "object",
+            "properties": {
+                "article": {
+                    "$ref": "#/definitions/model.ArticleModel"
+                },
+                "articleId": {
+                    "type": "integer"
+                },
+                "createdAt": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "tag": {
+                    "$ref": "#/definitions/model.TagModel"
+                },
+                "tagId": {
+                    "type": "integer"
+                },
+                "updatedAt": {
+                    "type": "string"
+                }
+            }
+        },
+        "model.CategoryModel": {
+            "type": "object",
+            "required": [
+                "name"
+            ],
+            "properties": {
+                "createdAt": {
+                    "type": "string"
+                },
+                "desc": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "updatedAt": {
+                    "type": "string"
+                },
+                "user": {
+                    "$ref": "#/definitions/model.UserModel"
+                },
+                "userId": {
+                    "type": "integer"
+                }
+            }
+        },
+        "model.CommentModel": {
+            "type": "object",
+            "required": [
+                "authorId",
+                "content"
+            ],
+            "properties": {
+                "article": {
+                    "$ref": "#/definitions/model.ArticleModel"
+                },
+                "articleId": {
+                    "type": "integer"
+                },
+                "author": {
+                    "$ref": "#/definitions/model.UserModel"
+                },
+                "authorId": {
+                    "type": "integer"
+                },
+                "commentId": {
+                    "type": "integer"
+                },
+                "comments": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/model.CommentModel"
+                    }
+                },
+                "content": {
+                    "type": "string"
+                },
+                "createdAt": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "replyUser": {
+                    "$ref": "#/definitions/model.UserModel"
+                },
+                "replyUserId": {
+                    "type": "integer"
+                },
+                "updatedAt": {
+                    "type": "string"
+                }
+            }
+        },
+        "model.TagModel": {
+            "type": "object",
+            "required": [
+                "name"
+            ],
+            "properties": {
+                "createdAt": {
+                    "type": "string"
+                },
+                "desc": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "updatedAt": {
+                    "type": "string"
+                },
+                "userId": {
+                    "type": "integer"
+                }
+            }
+        },
+        "model.ThumbnailModel": {
+            "type": "object",
+            "properties": {
+                "createdAt": {
+                    "type": "string"
+                },
+                "desc": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "size": {
+                    "type": "integer"
+                },
+                "updatedAt": {
+                    "type": "string"
+                },
+                "url": {
+                    "type": "string"
+                },
+                "user": {
+                    "$ref": "#/definitions/model.UserModel"
+                },
+                "userId": {
+                    "type": "integer"
+                }
+            }
+        },
+        "model.UserModel": {
+            "type": "object",
+            "required": [
+                "email",
+                "userName"
+            ],
+            "properties": {
+                "age": {
+                    "type": "integer"
+                },
+                "authId": {
+                    "type": "integer"
+                },
+                "avatar": {
+                    "type": "string"
+                },
+                "bio": {
+                    "type": "string"
+                },
+                "createdAt": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "nickName": {
+                    "type": "string"
+                },
+                "phone": {
+                    "type": "integer"
+                },
+                "resume": {
+                    "type": "integer"
+                },
+                "role": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "integer"
+                },
+                "updatedAt": {
+                    "type": "string"
+                },
+                "url": {
+                    "type": "string"
+                },
+                "userName": {
+                    "type": "string"
+                }
+            }
+        },
+        "request.ChangeAccountPwdReqStruct": {
+            "type": "object",
+            "required": [
+                "newPwd",
+                "oldPwd"
+            ],
+            "properties": {
+                "newPwd": {
+                    "type": "string"
+                },
+                "oldPwd": {
+                    "type": "string"
+                }
+            }
+        },
+        "request.CreateArticleCommentReqStruct": {
+            "type": "object",
+            "required": [
+                "articleId",
+                "content"
+            ],
+            "properties": {
+                "articleId": {
+                    "type": "integer"
+                },
+                "commentId": {
+                    "type": "integer"
+                },
+                "content": {
+                    "type": "string"
+                }
+            }
+        },
+        "request.CreateArticleReqStruct": {
+            "type": "object",
+            "required": [
+                "abstract",
+                "categoryId",
+                "content",
+                "title"
+            ],
+            "properties": {
+                "abstract": {
+                    "type": "string"
+                },
+                "allowComment": {
+                    "type": "integer"
+                },
+                "annexs": {
+                    "type": "array",
+                    "items": {
+                        "type": "integer"
+                    }
+                },
+                "categoryId": {
+                    "type": "integer"
+                },
+                "content": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                },
+                "tags": {
+                    "type": "array",
+                    "items": {
+                        "type": "integer"
+                    }
+                },
+                "thumbnail": {
+                    "type": "string"
+                },
+                "title": {
+                    "type": "string"
+                },
+                "topping": {
+                    "type": "integer"
+                }
+            }
+        },
+        "request.CreateCategoryReqStruct": {
+            "type": "object",
+            "required": [
+                "name"
+            ],
+            "properties": {
+                "desc": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "request.CreateCommentReqStruct": {
+            "type": "object",
+            "required": [
+                "content"
+            ],
+            "properties": {
+                "commentId": {
+                    "type": "integer"
+                },
+                "content": {
+                    "type": "string"
+                }
+            }
+        },
+        "request.CreateTagReqStruct": {
+            "type": "object",
+            "required": [
+                "name"
+            ],
+            "properties": {
+                "desc": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "request.PaginationReqStruct": {
+            "type": "object",
+            "properties": {
+                "pageNumber": {
+                    "type": "integer"
+                },
+                "pageSize": {
+                    "type": "integer"
+                }
+            }
+        },
+        "request.UpdateArticleReqStruct": {
+            "type": "object",
+            "required": [
+                "abstract",
+                "categoryId",
+                "content",
+                "title"
+            ],
+            "properties": {
+                "abstract": {
+                    "type": "string"
+                },
+                "allowComment": {
+                    "type": "integer"
+                },
+                "annexs": {
+                    "type": "array",
+                    "items": {
+                        "type": "integer"
+                    }
+                },
+                "categoryId": {
+                    "type": "integer"
+                },
+                "content": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "password": {
+                    "type": "string"
+                },
+                "tags": {
+                    "type": "array",
+                    "items": {
+                        "type": "integer"
+                    }
+                },
+                "thumbnail": {
+                    "type": "string"
+                },
+                "title": {
+                    "type": "string"
+                },
+                "topping": {
+                    "type": "integer"
+                }
+            }
+        },
+        "request.UpdateCategoryReqStruct": {
+            "type": "object",
+            "required": [
+                "name"
+            ],
+            "properties": {
+                "desc": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "request.UpdateTagReqStruct": {
+            "type": "object",
+            "required": [
+                "name"
+            ],
+            "properties": {
+                "desc": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "response.ArticleMonthStatisticResStruct": {
+            "type": "object",
+            "properties": {
+                "authorId": {
+                    "type": "integer"
+                },
+                "count": {
+                    "type": "integer"
+                },
+                "createdMonth": {
+                    "type": "string"
+                }
+            }
+        },
+        "response.ArticleTagStatisticResStruct": {
+            "type": "object",
+            "properties": {
+                "count": {
+                    "type": "integer"
+                },
+                "tag": {
+                    "type": "string"
+                },
+                "tagDesc": {
+                    "type": "string"
+                },
+                "tagId": {
+                    "type": "string"
+                },
+                "tagName": {
+                    "type": "string"
+                }
+            }
+        },
+        "response.DropdownListResStruct": {
+            "type": "object",
+            "properties": {
+                "label": {
+                    "type": "string"
+                },
+                "value": {
+                    "type": "integer"
+                }
+            }
+        },
+        "response.FileListResStruct": {
+            "type": "object",
+            "properties": {
+                "label": {
+                    "type": "string"
+                },
+                "url": {
+                    "type": "string"
+                },
+                "value": {
+                    "type": "integer"
+                }
+            }
+        },
+        "response.PaginationDataStruct": {
+            "type": "object",
+            "properties": {
+                "list": {
+                    "type": "object"
+                },
+                "pageNumber": {
+                    "type": "integer"
+                },
+                "pageSize": {
+                    "type": "integer"
+                },
+                "total": {
+                    "type": "integer"
+                }
+            }
+        },
+        "response.UploadAnnexResStruct": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "size": {
+                    "type": "integer"
+                },
+                "url": {
+                    "type": "string"
+                },
+                "value": {
+                    "type": "integer"
+                }
+            }
+        },
+        "response.UploadImageResStruct": {
+            "type": "object",
+            "properties": {
+                "label": {
+                    "type": "string"
+                },
+                "url": {
+                    "type": "string"
+                },
+                "value": {
+                    "type": "integer"
+                }
+            }
+        },
+        "user.LoginReqStruct": {
+            "type": "object",
+            "required": [
+                "passWord",
+                "userName"
+            ],
+            "properties": {
+                "passWord": {
+                    "type": "string"
+                },
+                "userName": {
+                    "type": "string"
+                }
+            }
+        },
+        "user.LoginResStruct": {
+            "type": "object",
+            "properties": {
+                "access_token": {
+                    "description": "第三方登录的 token",
+                    "type": "string"
+                },
+                "age": {
+                    "type": "integer"
+                },
+                "authId": {
+                    "type": "integer"
+                },
+                "avatar": {
+                    "type": "string"
+                },
+                "bio": {
+                    "type": "string"
+                },
+                "createdAt": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "loginType": {
+                    "type": "string"
+                },
+                "nickName": {
+                    "type": "string"
+                },
+                "openId": {
+                    "description": "从第三方登录获取的用户信息里的 id",
+                    "type": "integer"
+                },
+                "phone": {
+                    "type": "integer"
+                },
+                "resume": {
+                    "type": "integer"
+                },
+                "role": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "integer"
+                },
+                "token": {
+                    "type": "string"
+                },
+                "updatedAt": {
+                    "type": "string"
+                },
+                "url": {
+                    "type": "string"
+                },
+                "userId": {
+                    "description": "本地数据库表 ws_user 存储的 Id",
+                    "type": "integer"
+                },
+                "userName": {
+                    "type": "string"
+                }
+            }
+        }
+    }
+}
