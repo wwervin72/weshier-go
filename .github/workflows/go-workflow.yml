@@ -1,0 +1,41 @@
+name: weshier-go-workflow
+
+on: workflow_dispatch
+
+jobs:
+  build-docker-image:
+    runs-on: ubuntu-latest
+    strategy:
+    strategy:
+      matrix:
+        go: [1.15.6]
+    steps:
+      # 设置服务器时区为东八区
+      - name: Set time zone
+        run: sudo timedatectl set-timezone 'Asia/Shanghai'
+
+      - name: checkout repository
+        uses: actions/checkout@v2
+
+      - name: setup go
+        uses: actions/setup-go@v1
+        with:
+          go-version: ${{ matrix.go }}
+
+      - name: login to docker hub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKER_HUB_USERNAME }}
+          password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+
+      - name: build docker image and push
+        id: docker_build
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          file: ./Dockerfile
+          push: true
+          tags: ${{ secrets.DOCKER_HUB_REPOSITORY }}/weshiergo:latest
+
+      - name: Image digest
+        run: echo ${{ steps.docker_build.outputs.digest }}
