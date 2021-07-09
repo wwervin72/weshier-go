@@ -48,6 +48,6 @@ jobs:
           port: ${{ secrets.WESHIER_SERVER_PORT }}
           script: |
             pwd
-            docker login -u ${{ secrets.DOCKER_HUB_UNAME }} - p ${{ secrets.DOCKER_HUB_PASS }}
+            docker login -u ${{ secrets.DOCKER_HUB_UNAME }} -p ${{ secrets.DOCKER_HUB_PASS }}
             docker pull ${{ secrets.DOCKER_HUB_REPOSITORY }}/weshier:go
             bash ${{ secrets.WESHIER_DEPLOY_PATH }}/run-go-docker.sh
