@@ -48,14 +48,15 @@ jobs:
 
       - name: build docker image and push
         id: docker_build
+        run: cd fe-vue && pwd
         uses: docker/build-push-action@v2
         with:
-          context: ./fe-vue/
-          file: ./fe-vue/Dockerfile
+          context: .
+          file: ./Dockerfile
           push: true
           tags: weshierfe:latest
-          secrets: |
-            GIT_AUTH_TOKEN=${{ secrets.GITHUB_TOKEN }}
+          # secrets: |
+          #   GIT_AUTH_TOKEN=${{ secrets.GITHUB_TOKEN }}
 
       - name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
