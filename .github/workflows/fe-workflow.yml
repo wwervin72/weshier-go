@@ -53,7 +53,7 @@ jobs:
           context: ./fe-vue/
           file: ./fe-vue/Dockerfile
           push: true
-          tags: ${{ secrets.DOCKER_HUB_REPOSITORY }}/weshierfe:latest
+          tags: ${{ secrets.DOCKER_HUB_REPOSITORY }}/weshier/weshierfe:latest
           # secrets: |
           #   GIT_AUTH_TOKEN=${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
 
