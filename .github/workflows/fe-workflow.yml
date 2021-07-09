@@ -52,7 +52,7 @@ jobs:
         with:
           context: ./fe-vue/
           file: ./fe-vue/Dockerfile
-          push: true
+          push: false
           tags: weshierfe:latest
 
       - name: Image digest
