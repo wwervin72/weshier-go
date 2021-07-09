@@ -6,7 +6,6 @@ jobs:
   build-docker-image:
     runs-on: ubuntu-latest
     strategy:
-    strategy:
       matrix:
         go: [1.15.6]
     steps:
