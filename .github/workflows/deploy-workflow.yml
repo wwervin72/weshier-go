@@ -13,7 +13,7 @@ jobs:
           username: ${{ secrets.WESHIER_SERVER_USER }}
           password: ${{ secrets.WESHIER_SERVER_PASS }}
           port: ${{ secrets.WESHIER_SERVER_PORT }}
-          source: "./script/*,./fe-vue/script/*"
+          source: "./script/run-docker.sh,./fe-vue/script/run-docker.sh"
           target: ${{ secrets.WESHIER_DEPLOY_PATH }}
 
       - name: ssh pipelines
