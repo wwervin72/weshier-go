@@ -63,4 +63,7 @@ jobs:
           pass: ${{ secrets.WESHIER_SERVER_PASS }}
           port: ${{ secrets.WESHIER_SERVER_PORT }}
           script: |
-            pwd && ls
+            pwd
+            docker login -u ${{ secrets.DOCKER_HUB_UNAME }} - p ${{ secrets.DOCKER_HUB_PASS }}
+            docker pull ${{ secrets.DOCKER_HUB_REPOSITORY }}/weshier:fe
+            bash ${{ secrets.WESHIER_DEPLOY_PATH }}/run-fe-docker.sh

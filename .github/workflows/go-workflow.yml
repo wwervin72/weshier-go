@@ -38,3 +38,16 @@ jobs:
 
       - name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
+
+      - name: ssh pipelines
+        uses: cross-the-world/ssh-pipeline@master
+        with:
+          host: ${{ secrets.WESHIER_SERVER_HOST }}
+          user: ${{ secrets.WESHIER_SERVER_USER }}
+          pass: ${{ secrets.WESHIER_SERVER_PASS }}
+          port: ${{ secrets.WESHIER_SERVER_PORT }}
+          script: |
+            pwd
+            docker login -u ${{ secrets.DOCKER_HUB_UNAME }} - p ${{ secrets.DOCKER_HUB_PASS }}
+            docker pull ${{ secrets.DOCKER_HUB_REPOSITORY }}/weshier:go
+            bash ${{ secrets.WESHIER_DEPLOY_PATH }}/run-go-docker.sh

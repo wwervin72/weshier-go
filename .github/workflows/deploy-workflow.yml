@@ -6,16 +6,6 @@ jobs:
   deploy-server:
     runs-on: ubuntu-latest
     steps:
-      - name: copy script
-        uses: appleboy/scp-action@master
-        with:
-          host: ${{ secrets.WESHIER_SERVER_HOST }}
-          username: ${{ secrets.WESHIER_SERVER_USER }}
-          password: ${{ secrets.WESHIER_SERVER_PASS }}
-          port: ${{ secrets.WESHIER_SERVER_PORT }}
-          source: "./script/run-docker.sh,./fe-vue/script/run-docker.sh"
-          target: ${{ secrets.WESHIER_DEPLOY_PATH }}
-
       - name: ssh pipelines
         uses: cross-the-world/ssh-pipeline@master
         with:
@@ -28,3 +18,5 @@ jobs:
             docker login -u ${{ secrets.DOCKER_HUB_UNAME }} - p ${{ secrets.DOCKER_HUB_PASS }}
             docker pull ${{ secrets.DOCKER_HUB_REPOSITORY }}/weshier:fe
             docker pull ${{ secrets.DOCKER_HUB_REPOSITORY }}/weshier:go
+            bash ${{ secrets.WESHIER_DEPLOY_PATH }}/run-fe-docker.sh
+            bash ${{ secrets.WESHIER_DEPLOY_PATH }}/run-go-docker.sh
