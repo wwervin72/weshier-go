@@ -24,6 +24,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import '@/styles/_variables.scss';
 .ws_bg_ani {
 	position: fixed;
 	width: 100vw;
@@ -32,7 +33,7 @@ export default {
 	top: 0;
 	overflow: hidden;
 	z-index: -1;
-	// background-color: rgba($color: #f00, $alpha: 0.3);
+	background-color: rgba($color: $moduleBGC, $alpha: 0.3);
 	&,
 	* {
 		pointer-events: none;
