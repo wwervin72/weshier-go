@@ -67,3 +67,13 @@ export function fetchTagPagination(params) {
 		params
 	})
 }
+
+/**
+ * 获取 tag 下文章的分页数据
+ */
+export function fetchTagArticlePagination(tagId, params) {
+	return TagFetch({
+		url: `/article/${tagId}`,
+		params
+	})
+}

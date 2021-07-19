@@ -105,6 +105,7 @@ const router = new vueRouter({
 				{
 					path: "t/:tagId",
 					name: "tagArticles",
+					props: true,
 					component: () =>
 						import(
 							/* webpackChunkName: "tagArticles" */ "../views/tagArticles/index.vue"

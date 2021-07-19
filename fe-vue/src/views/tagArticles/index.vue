@@ -1,5 +1,6 @@
 <template>
 	<div class="ws_articles">
+		<tags-row :tagList="tagList" ref="tagRow"></tags-row>
 		<ws-articles :articles="articles" ref="articles"></ws-articles>
 		<a-pagination :default-current="pageNumber" show-quick-jumper @change="pagination" :total="total" />
 	</div>
@@ -7,17 +8,18 @@
 
 <script>
 import { Pagination } from 'ant-design-vue'
-import { articlePagination } from '../../api/fetch/article'
+import { fetchTagInfo, fetchTagArticlePagination } from '../../api/fetch/tag'
 import WsArticles from '@/components/articles/index.vue'
+import tagsRow from '@/components/tagsRow.vue';
 
 export default {
 	name: "WsTagArticlesPage",
 	components: {
 		WsArticles,
+		tagsRow,
 		APagination: Pagination
 	},
 	props: {
-		userId: String,
 		tagId: String
 	},
 	data() {
@@ -25,15 +27,32 @@ export default {
 			total: 100,
 			pageNumber: 0,
 			pageSize: 0,
-			articles: []
+			articles: [],
+			tagList: []
 		}
 	},
 	created() {
-		this.articlePagination()
+		this.fetchTagArticlePagination()
+		this.fetchTagInfo()
 	},
 	methods: {
-		articlePagination () {
-			articlePagination({
+		fetchTagInfo() {
+			fetchTagInfo(this.tagId).then(res => {
+				this.$set(this, 'tagList', [{
+					label: res.data.name,
+					value: res.data.id
+				}])
+				this.$nextTick(() => {
+					this.$refs.tagRow.initAni()
+				})
+			}).catch(err => {
+				if (process.env.NODE_ENV === 'development') {
+					console.log(err);
+				}
+			})
+		},
+		fetchTagArticlePagination () {
+			fetchTagArticlePagination(this.tagId, {
 				pageSize: this.pageSize,
 				pageNumber: this.pageNumber
 			}).then(res => {
@@ -49,7 +68,7 @@ export default {
 		},
 		pagination(pageNumber) {
 			this.pageNumber = pageNumber - 1
-			this.articlePagination()
+			this.fetchTagArticlePagination()
 		}
 	}
 }

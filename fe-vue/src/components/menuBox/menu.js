@@ -24,13 +24,17 @@ class Menu {
 		// The total number of items.
 		this.itemsTotal = this.DOM.items.length;
 
-		// Custom elements that will be animated.
+		this.updateTouriesLinks()
+	}
+	updateTagLinks() {
 		this.DOM.mainLinks = this.DOM.el.querySelectorAll(
 			".mainmenu > a.mainmenu__item"
 		);
 		this.DOM.sidemenuLinks = this.DOM.el.querySelectorAll(
 			".sidemenu span.sidemenu__item-inner"
 		);
+	}
+	updateTouriesLinks() {
 		this.DOM.menulink = this.DOM.el.querySelector(".menu__item-link");
 	}
 	// Open the menu.
@@ -284,11 +288,12 @@ class TiltFx {
 let allowTilt = true;
 let tilt;
 export function initMenu() {
-	new Menu(document.querySelector("nav.menu"));
+	const menu = new Menu(document.querySelector("nav.menu"));
 	tilt = new TiltFx();
 	imagesLoaded(
 		document.querySelector(".background"),
 		{ background: true },
 		() => document.body.classList.remove("loading")
 	);
+	return menu
 }

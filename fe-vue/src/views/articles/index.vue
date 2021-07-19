@@ -1,30 +1,25 @@
 <template>
 	<div class="ws_articles">
-		<div class="tag_list" ref="tags" v-if="tagList.length">
-			<strong>标签：</strong>
-			<router-link class="tag" v-for="tag in tagList" :key="tag.value" :to="`/t/${tag.value}`">
-				<a-tag color="pink">{{tag.label}}</a-tag>
-			</router-link>
-		</div>
+		<tags-row :tagList="tagList" ref="tagRow"></tags-row>
 		<ws-articles :articles="articles" ref="articles"></ws-articles>
 		<a-pagination class="text_rt ws_pagination" :default-current="pageNumber" show-quick-jumper @change="pagination" :total="total" />
-		<back-top></back-top>
+		<back-top class="backtop"></back-top>
 	</div>
 </template>
 
 <script>
-import { Pagination, Tag, BackTop } from 'ant-design-vue';
+import { Pagination, BackTop } from 'ant-design-vue';
 import { articlePagination } from '@/api/fetch/article';
 import { fetchTagList } from '@/api/fetch/tag';
 import WsArticles from '@/components/articles/index.vue';
-import { TweenMax, Back } from 'gsap';
+import tagsRow from '@/components/tagsRow.vue';
 
 export default {
 	name: "WsArticlesPage",
 	components: {
 		WsArticles,
-		ATag: Tag,
 		BackTop,
+		tagsRow,
 		APagination: Pagination
 	},
 	data() {
@@ -47,19 +42,7 @@ export default {
 				if (res.code === 200) {
 					this.tagList = res.data
 					this.$nextTick(() => {
-						if (this.$refs.tags) {
-							this.tagLetters = this.$refs.tags.querySelectorAll('a.tag')
-							this.tagLetters.forEach((letter, index) => {
-								TweenMax.to(letter, 0.5, {
-									ease: Back.easeOut,
-									delay: index * 0.05,
-									startAt: { y: "-250%", x: "-100%", opacity: 0 },
-									y: "0%",
-									x: "0%",
-									opacity: 1
-								});
-							});
-						}
+						this.$refs.tagRow.initAni()
 					})
 				}
 			}).catch(err => {
@@ -96,24 +79,8 @@ export default {
 	min-width: 768px;
 	margin: 0 auto;
 }
-.tag_list {
-	text-align: center;
-	padding: 40px 0;
-	strong {
-		font-size: 15px;
-		display: inline-block;
-		vertical-align: middle;
-	}
-}
-.tag {
-	display: inline-block;
-	/deep/ {
-		.ant-tag {
-			cursor: pointer;
-			&:hover {
-				text-decoration: underline;
-			}
-		}
-	}
+
+.backtop {
+	right: 50px;
 }
 </style>

@@ -371,3 +371,22 @@ func ArticlePagination(data *request.PaginationReqStruct) (error, []ArticleReqSt
 	}
 	return nil, list, count
 }
+
+func TagArticlePagination(tagId uint64, data *request.PaginationReqStruct) (error, []ArticleReqStruct, uint) {
+	pagesize := data.PageSize
+	pageNumber := data.PageNumber
+	if pagesize == 0 {
+		pagesize = 10
+	}
+	offset := pagesize * pageNumber
+	list := make([]ArticleReqStruct, pagesize)
+	am := &ArticleModel{}
+	atm := &ArticleTagModel{}
+	var count uint
+	tx := DB.Self.Model(am).Where("id in (?)", DB.Self.Model(atm).Select("article_id").Where("tag_id = ?", tagId).SubQuery()).Count(&count).Order("topping desc, created_at desc").Limit(pagesize).Offset(offset).Preload("ThumbnailEntity").Preload("Author").Preload("TagsEntity").Preload("TagsEntity.Tag").Find(&list)
+	if tx.Error != nil {
+		logger.Logger.Error("article pagination query failed", zap.String("error", tx.Error.Error()))
+		return errno.ErrDatabase, nil, 0
+	}
+	return nil, list, count
+}

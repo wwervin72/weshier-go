@@ -80,35 +80,12 @@
 			<div class="menu__item menu__item--3" data-direction="bt">
 				<div class="menu__item-inner">
 					<div class="sidemenu">
-						<a href="#" class="sidemenu__item"
-							><span class="sidemenu__item-inner"
-								>FE</span
-							></a
-						>
-						<a href="#" class="sidemenu__item"
-							><span class="sidemenu__item-inner"
-								>Javascript</span
-							></a
-						>
-						<a href="#" class="sidemenu__item"
-							><span class="sidemenu__item-inner"
-								>CSS</span
-							></a
-						>
-						<a href="#" class="sidemenu__item"
-							><span class="sidemenu__item-inner"
-								>NodeJS</span
-							></a
-						>
-						<a href="#" class="sidemenu__item"
-							><span class="sidemenu__item-inner">Golang</span></a
-						>
-						<a href="#" class="sidemenu__item"
-							><span class="sidemenu__item-inner">Others</span></a
-						>
-						<a href="#" class="sidemenu__item"
-							><span class="sidemenu__item-inner">...</span></a
-						>
+						<router-link class="sidemenu__item" v-for="tag in tagList" :key="tag.value" :to="`/t/${tag.value}`">
+							<span class="sidemenu__item-inner">{{tag.label}}</span>
+						</router-link>
+						<router-link class="sidemenu__item" to="/articles">
+							<span class="sidemenu__item-inner">...</span>
+						</router-link>
 					</div>
 				</div>
 			</div>
@@ -142,15 +119,39 @@
 </template>
 <script>
 import { initMenu } from "./menu";
-
+import { fetchTagList } from '@/api/fetch/tag.js';
 
 export default {
 	name: "WsMenuBox",
 	data() {
-		return {};
+		return {
+			tagList: [],
+			menu: null
+		};
+	},
+	created() {
+		this.fetchTagList();
 	},
 	mounted() {
-		initMenu();
+		this.menu = initMenu();
+	},
+	methods: {
+		fetchTagList() {
+			fetchTagList().then(res => {
+				if (res.code === 200) {
+					this.$set(this, 'tagList', res.data)
+					this.$nextTick(() => {
+						if (this.menu) {
+							this.menu.updateTagLinks()
+						}
+					})
+				}
+			}).catch(err => {
+				if (process.env.NODE_ENV === 'development') {
+					console.log(err);
+				}
+			})
+		}
 	}
 };
 </script>
@@ -174,5 +175,8 @@ export default {
 }
 .background__copy {
     background-image: url("./1.jpg");
+}
+.sidemenu__item-inner {
+	color: #fff;
 }
 </style>

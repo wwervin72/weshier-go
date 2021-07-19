@@ -78,12 +78,32 @@ func QueryTagInfo(c *gin.Context) {
 		handler.SendResponse(c, errno.InternalServerError, nil)
 		return
 	}
-	err, user := handler.GetUserFromContext(c)
+	err, tag := model.QueryTagByID(uint64(intId))
 	if err != nil {
 		handler.SendResponse(c, err, nil)
 		return
 	}
-	err, tag := model.QueryTagByIDAndUser(uint64(intId), user.ID)
+	handler.SendResponse(c, nil, tag)
+	return
+}
+
+// QueryUserTagInfo
+// @Summary 用户tag详情查询
+// @Description 用户tag详情查询
+// @Tags tag
+// @Produce json
+// @Success 200 {object} handler.Response{data=model.TagModel} "用户tag详情查询成功"
+// @Router /api/tag/detail/{tagId} [get]
+func QueryUserTagInfo(c *gin.Context) {
+	uId := c.Param("userId")
+	userId, err := strconv.Atoi(uId)
+	tId := c.Param("tagId")
+	tagId, err := strconv.Atoi(tId)
+	if err != nil {
+		handler.SendResponse(c, errno.InternalServerError, nil)
+		return
+	}
+	err, tag := model.QueryTagByIDAndUser(uint64(tagId), uint64(userId))
 	if err != nil {
 		handler.SendResponse(c, err, nil)
 		return
@@ -162,6 +182,49 @@ func QueryTagPagination(c *gin.Context) {
 				PageNumber: body.PageNumber,
 			},
 			List:  tags,
+			Total: count,
+		},
+	})
+	return
+}
+
+// QueryTagArticlePagination
+// @Summary tag下文章分页查询
+// @Description tag下文章分页查询
+// @Tags tag
+// @Produce json
+// @Param PaginationParam body request.PaginationReqStruct true "tag下文章分页查询参数"
+// @Success 200 {object} handler.Response{data=response.PaginationDataStruct{list=[]model.TagModel}} "tag文章分页查询成功"
+// @Router /api/tag/{tagId}/article [get]
+func QueryTagArticlePagination(c *gin.Context) {
+	id := c.Param("tagId")
+	intId, err := strconv.Atoi(id)
+	if err != nil {
+		handler.SendResponse(c, errno.InternalServerError, nil)
+		return
+	}
+
+	body := &request.PaginationReqStruct{}
+	if err := c.ShouldBindQuery(&body); err != nil {
+		handler.SendResponse(c, errno.ErrBadRequest, nil)
+		return
+	}
+	err, articles, count := model.TagArticlePagination(uint64(intId), body)
+	if err != nil {
+		handler.SendResponse(c, err, nil)
+		return
+	}
+	handler.SendResponse(c, nil, &response.PaginationResStruct{
+		Response: response.Response{
+			Code:    errno.OK.Code,
+			Message: errno.OK.Message,
+		},
+		Data: response.PaginationDataStruct{
+			PaginationReqStruct: request.PaginationReqStruct{
+				PageSize:   body.PageSize,
+				PageNumber: body.PageNumber,
+			},
+			List:  articles,
 			Total: count,
 		},
 	})
