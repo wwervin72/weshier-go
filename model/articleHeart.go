@@ -13,3 +13,13 @@ type ArticleHeartModel struct {
 func (ahm *ArticleHeartModel) TableName() string {
 	return "ws_article_heart"
 }
+
+// Create create article
+func (ahm *ArticleHeartModel) Create() error {
+	return DB.Self.Model(ahm).Create(&ahm).Error
+}
+
+// Delete delete article
+func (ahm *ArticleHeartModel) Delete() error {
+	return DB.Self.Model(ahm).Delete(&ahm).Error
+}
