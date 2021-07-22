@@ -26,7 +26,7 @@
 				:title="comment.author.nickName"
 			/>
 		</router-link>
-		<span slot="datetime">{{comment.createdAt}}</span>
+		<span slot="datetime">发布于 {{comment.createdAt}}</span>
 		<p slot="content">{{comment.content}}</p>
 		<ws-comment v-for="childComment in comment.comments || []" :key="childComment.id"
 			:comment="childComment" :need-editor="false" @reply="opReplyEditor" :article-author="articleAuthor"></ws-comment>

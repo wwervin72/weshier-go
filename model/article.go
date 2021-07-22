@@ -9,6 +9,7 @@ import (
 	"weshierNext/pkg/errno"
 	"weshierNext/pkg/logger"
 	"weshierNext/pkg/validate"
+	"weshierNext/util"
 
 	"github.com/gin-gonic/gin"
 	"github.com/jinzhu/gorm"
@@ -61,6 +62,8 @@ func (am *ArticleModel) AfterFind(tx *gorm.DB) (err error) {
 	if am.Tags == nil {
 		am.Tags = tags
 	}
+	am.CreatedTime = util.TimeFormat(*am.CreatedAt)
+	am.UpdatedTime = util.TimeFormat(*am.UpdatedAt)
 	return
 }
 

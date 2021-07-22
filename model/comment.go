@@ -5,7 +5,9 @@ import (
 	"weshierNext/pkg/errno"
 	"weshierNext/pkg/logger"
 	"weshierNext/pkg/validate"
+	"weshierNext/util"
 
+	"github.com/jinzhu/gorm"
 	"go.uber.org/zap"
 )
 
@@ -31,6 +33,12 @@ func (cm *CommentModel) TableName() string {
 // Create create comment
 func (cm *CommentModel) Create() error {
 	return DB.Self.Model(cm).Create(&cm).Error
+}
+
+func (am *CommentModel) AfterFind(tx *gorm.DB) (err error) {
+	am.CreatedTime = util.TimeFormat(*am.CreatedAt)
+	am.UpdatedTime = util.TimeFormat(*am.UpdatedAt)
+	return
 }
 
 // Delete delete comment

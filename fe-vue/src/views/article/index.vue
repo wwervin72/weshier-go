@@ -11,7 +11,7 @@
 						<a-tag class="author" color="pink">作者</a-tag>
 					</router-link>
 					<p>
-						{{article.createdAt}}
+						发布于 {{article.createdAt}}
 					</p>
 				</div>
 			</div>
