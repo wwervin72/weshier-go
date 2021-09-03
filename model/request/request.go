@@ -51,6 +51,10 @@ type CreateCommentReqStruct struct {
 	Content   string `json:"content" binding:"required" validate:"min=1,max=250"`
 }
 
+type DelCommentReqStruct struct {
+	CommentID uint64 `json:"commentId"`
+}
+
 type CreateArticleCommentReqStruct struct {
 	CreateCommentReqStruct
 	ArticleID uint64 `json:"articleId" binding:"required"`

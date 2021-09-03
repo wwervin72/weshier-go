@@ -1,7 +1,7 @@
 <template>
 	<div class="comment_wrap">
 		<ws-comment-editor class="comment_editor" @add-comment="addComment"></ws-comment-editor>
-		<ws-comment v-for="comment in comments" :key="comment.id" :comment="comment"></ws-comment>
+		<ws-comment v-for="comment in comments" :key="comment.id" :comment="comment" @delete-comment="delComment"></ws-comment>
 		<a-pagination class="text_rt ws_pagination" :default-current="pageNumber" @change="pagination" :total="total" />
 	</div>
 </template>
@@ -49,6 +49,12 @@ export default {
 		pagination(pageNumber) {
 			this.pageNumber = pageNumber - 1
 			this.commentPagination()
+		},
+		delComment(comment) {
+			const index = this.comments.findIndex(el => el.id === comment.id);
+			if (index !== -1) {
+				this.comments.splice(index, 1)
+			}
 		}
 	}
 }

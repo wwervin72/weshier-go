@@ -41,6 +41,13 @@ func (am *CommentModel) AfterFind(tx *gorm.DB) (err error) {
 	return
 }
 
+// QueryById query comment detail by id
+func QueryCommentById(commentId uint64) (*CommentModel, error) {
+	cm := &CommentModel{}
+	tx := DB.Self.Model(cm).Where("id = ?", commentId).Find(cm)
+	return cm, tx.Error
+}
+
 // Delete delete comment
 func (cm *CommentModel) Delete() error {
 	return DB.Self.Model(cm).Delete(&cm).Error

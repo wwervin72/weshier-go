@@ -14,4 +14,3 @@ export function loginJump() {
 		this.$router.push('/')
 	}
 }
-

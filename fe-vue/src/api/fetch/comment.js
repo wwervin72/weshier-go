@@ -20,6 +20,18 @@ export function LeaveComment(data) {
 }
 
 /**
+ * 删除留言
+ * @param {*} data
+ */
+export function DeleteComment(data) {
+	return CommentFetch({
+		url: '',
+		method: 'delete',
+		data
+	})
+}
+
+/**
  * 评论文章
  * @param {*} data
  */
