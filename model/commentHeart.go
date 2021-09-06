@@ -13,3 +13,40 @@ type CommentHeartModel struct {
 func (chm *CommentHeartModel) TableName() string {
 	return "ws_comment_heart"
 }
+
+// Create heart comment
+func (chm *CommentHeartModel) Create() error {
+	return DB.Self.Model(chm).Create(&chm).Error
+}
+
+// Delete cancel heart comment
+func (chm *CommentHeartModel) Delete() error {
+	return DB.Self.Model(chm).Delete(&chm).Error
+}
+
+func CountCommentHeartByIdAndUser(commentId uint64, userId uint64) (count uint16, err error) {
+	chm := &CommentHeartModel{}
+	tx := DB.Self.Model(chm).Where("comment_id = ? and user_id = ?", commentId, userId).Count(&count)
+	return count, tx.Error
+}
+
+func CountCommentHeartById(commentId uint64) (count uint, err error) {
+	chm := &CommentHeartModel{}
+	tx := DB.Self.Model(chm).Where("comment_id = ?", commentId).Count(&count)
+	return count, tx.Error
+}
+
+func QueryCommentHeartUserById(commentId uint64) (userIds []uint64, err error) {
+	list := &[]CommentHeartModel{}
+	tx := DB.Self.Model(&CommentHeartModel{}).Select("user_id").Where("comment_id = ?", commentId).Find(list)
+	for _, item := range *list {
+		userIds = append(userIds, item.UserID)
+	}
+	return userIds, tx.Error
+}
+
+func CountCommentHeartByUser(userId uint64) (count uint16, err error) {
+	chm := &CommentHeartModel{}
+	tx := DB.Self.Model(chm).Where("user_id = ?", userId).Count(&count)
+	return count, tx.Error
+}

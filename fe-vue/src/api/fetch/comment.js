@@ -20,6 +20,27 @@ export function LeaveComment(data) {
 }
 
 /**
+ * 喜欢留言
+ * @param {*} commentId
+ */
+export function HeartComment(commentId) {
+	return CommentFetch({
+		url: `/heart/${commentId}`
+	})
+}
+
+/**
+ * 取消喜欢留言
+ * @param {*} commentId
+ */
+export function CancelHeartComment(commentId) {
+	return CommentFetch({
+		url: `/heart/${commentId}`,
+		method: 'delete'
+	})
+}
+
+/**
  * 删除留言
  * @param {*} data
  */

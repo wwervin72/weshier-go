@@ -36,7 +36,7 @@
 		</router-link>
 		<span slot="datetime">发布于 {{comment.createdAt}}</span>
 		<p slot="content">{{comment.content}}</p>
-		<ws-comment v-for="childComment in comment.comments || []" :key="childComment.id"
+		<ws-comment v-for="childComment in comment.comments || []" :key="childComment.id"  @heart-comment="heartComment" @cancel-heart-comment="cancelHeartComment"
 			:comment="childComment" :need-editor="false" @reply="opReplyEditor" :article-author="articleAuthor" @delete-comment="delComment"></ws-comment>
 		<ws-comment-editor v-if="needEditor" v-show="editorVisible" @add-comment="addComment" :metion-options="childCommentAuthors"
 			@cancel="cancelComment" :articleId="articleId" :commentId="comment.id"></ws-comment-editor>
@@ -49,7 +49,7 @@ import { mapGetters } from 'vuex'
 import WsCommentEditor from './commentEditor'
 import WsAvatar from './avatar'
 import { roles } from '@/utils/variables'
-import { DeleteComment } from '@/api/fetch/comment'
+import { DeleteComment, HeartComment, CancelHeartComment } from '@/api/fetch/comment'
 
 export default {
 	name: "WsComment",
@@ -91,7 +91,16 @@ export default {
 	},
 	methods: {
 		heart() {
+			if (this.comment.hearted) {
+				CancelHeartComment(this.comment.id).then(() => {
+					this.$emit('cancel-heart-comment', this.comment)
+				}).catch(() => {})
 
+			} else {
+				HeartComment(this.comment.id).then(() => {
+					this.$emit('heart-comment', this.comment)
+				}).catch(() => {})
+			}
 		},
 		opReplyEditor() {
 			this.editorVisible = true
@@ -119,7 +128,15 @@ export default {
 			if (index !== -1) {
 				this.comment.comments.splice(index, 1)
 			}
-		}
+		},
+		heartComment(comment) {
+			this.$set(comment, 'hearted', 1)
+			this.$set(comment, 'heartCount', comment.heartCount + 1)
+		},
+		cancelHeartComment(comment) {
+			this.$set(comment, 'hearted', 0)
+			this.$set(comment, 'heartCount', Math.max(comment.heartCount - 1, 0))
+		},
 	}
 };
 </script>

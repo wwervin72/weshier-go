@@ -54,7 +54,7 @@
 			<ws-comment-editor class="comment_editor" :article-id="article.id" @add-comment="addComment"></ws-comment-editor>
 			<a-skeleton v-if="loadingComments" active />
 			<template v-else>
-				<ws-comment v-for="comment in comments" :key="comment.id" :comment="comment"
+				<ws-comment v-for="comment in comments" :key="comment.id" :comment="comment" @heart-comment="heartComment" @cancel-heart-comment="cancelHeartComment"
 					:article-id="article.id" :article-author="article.author && article.author.id" @delete-comment="delComment"></ws-comment>
 			</template>
 			<a-pagination class="article_pagination" :default-current="pageNumber" @change="pagination" :total="total" />
@@ -76,6 +76,7 @@ import { articleCommentPagination } from "@/api/fetch/comment";
 import wsAvatar from '@/components/avatar'
 import wsCommentEditor from '@/components/commentEditor'
 import wsComment from '@/components/comment'
+import { isHeart } from '@/utils/utils'
 export default {
 	name: "WsArticlePage",
 	components: {
@@ -158,6 +159,8 @@ export default {
 			.then(res => {
 				if (res.code === 200) {
 					this.total = res.data.data.total
+					isHeart(res.data.data.list)
+					console.log(res.data.data.list);
 					this.comments = res.data.data.list
 				}
 			})
@@ -180,7 +183,15 @@ export default {
 			if (index !== -1) {
 				this.comments.splice(index, 1)
 			}
-		}
+		},
+		heartComment(comment) {
+			this.$set(comment, 'hearted', true)
+			this.$set(comment, 'heartCount', comment.heartCount + 1)
+		},
+		cancelHeartComment(comment) {
+			this.$set(comment, 'hearted', false)
+			this.$set(comment, 'heartCount', Math.max(comment.heartCount - 1, 0))
+		},
 	}
 };
 </script>

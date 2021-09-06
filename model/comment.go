@@ -20,9 +20,11 @@ type CommentModel struct {
 	ArticleID   uint64         `zh:"文章" json:"articleId" gorm:"column:article_id;"`
 	Article     ArticleModel   `json:"article" validate:"-" gorm:"foreignKey:ArticleID"`
 	CommentID   uint64         `zh:"文章" json:"commentId" gorm:"column:comment_id;"`
-	Comments    []CommentModel `json:"comments" validate:"-"`
+	Comments    []CommentModel `json:"comments" validate:"-" gorm:"-"`
 	ReplyUserId uint64         `zh:"回复人" json:"replyUserId" gorm:"column:reply_user_id;"`
 	ReplyUser   UserModel      `zh:"回复人" json:"replyUser" validate:"-" gorm:"foreignKey:ReplyUserId"`
+	HeartCount  uint16         `zh:"点赞数" json:"heartCount" gorm:"-"`
+	HeartUserID []uint64       `zh:"点赞用户" json:"heartUserID" gorm:"-"`
 }
 
 // TableName comment table name
@@ -38,7 +40,13 @@ func (cm *CommentModel) Create() error {
 func (am *CommentModel) AfterFind(tx *gorm.DB) (err error) {
 	am.CreatedTime = util.TimeFormat(*am.CreatedAt)
 	am.UpdatedTime = util.TimeFormat(*am.UpdatedAt)
-	return
+	userIds, err := QueryCommentHeartUserById(am.ID)
+	if err != nil {
+		return err
+	}
+	am.HeartCount = uint16(len(userIds))
+	am.HeartUserID = userIds
+	return nil
 }
 
 // QueryById query comment detail by id

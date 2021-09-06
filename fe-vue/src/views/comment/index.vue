@@ -1,7 +1,8 @@
 <template>
 	<div class="comment_wrap">
 		<ws-comment-editor class="comment_editor" @add-comment="addComment"></ws-comment-editor>
-		<ws-comment v-for="comment in comments" :key="comment.id" :comment="comment" @delete-comment="delComment"></ws-comment>
+		<ws-comment v-for="comment in comments" :key="comment.id" :comment="comment" @delete-comment="delComment"  @heart-comment="heartComment"
+			@cancel-heart-comment="cancelHeartComment"></ws-comment>
 		<a-pagination class="text_rt ws_pagination" :default-current="pageNumber" @change="pagination" :total="total" />
 	</div>
 </template>
@@ -10,6 +11,7 @@
 import { commentPagination } from '@/api/fetch/comment'
 import WsCommentEditor from '@/components/commentEditor'
 import WsComment from '@/components/comment'
+import { isHeart } from '@/utils/utils'
 export default {
 	name: "WsCommentPage",
 	components: {
@@ -38,6 +40,7 @@ export default {
 			}).then(res => {
 				if (res.code === 200) {
 					this.total = res.data.data.total
+					isHeart(res.data.data.list)
 					this.comments = res.data.data.list
 				}
 			}).catch(err => {
@@ -55,7 +58,15 @@ export default {
 			if (index !== -1) {
 				this.comments.splice(index, 1)
 			}
-		}
+		},
+		heartComment(comment) {
+			this.$set(comment, 'hearted', true)
+			this.$set(comment, 'heartCount', comment.heartCount + 1)
+		},
+		cancelHeartComment(comment) {
+			this.$set(comment, 'hearted', false)
+			this.$set(comment, 'heartCount', Math.max(comment.heartCount - 1, 0))
+		},
 	}
 }
 </script>
