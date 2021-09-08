@@ -9,6 +9,13 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// HeartComment
+// @Summary 点赞评论
+// @Description 点赞评论
+// @Tags comment
+// @Produce json
+// @Success 200 {object} handler.Response{} "点赞评论成功"
+// @Router /api/comment/heart/{commentId} [get]
 func HeartComment(c *gin.Context) {
 	id := c.Param("commentId")
 	intId, err := strconv.Atoi(id)
@@ -44,6 +51,13 @@ func HeartComment(c *gin.Context) {
 	return
 }
 
+// CancelHeartComment
+// @Summary 取消点赞评论
+// @Description 取消点赞评论
+// @Tags comment
+// @Produce json
+// @Success 200 {object} handler.Response{} "取消点赞评论成功"
+// @Router /api/comment/heart/{commentId} [delete]
 func CancelHeartComment(c *gin.Context) {
 	id := c.Param("commentId")
 	intId, err := strconv.Atoi(id)

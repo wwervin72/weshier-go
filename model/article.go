@@ -35,6 +35,9 @@ type ArticleModel struct {
 	TagsEntity      []ArticleTagModel   `zh:"标签" json:"tagsEntity" gorm:"FOREIGNKEY:ArticleID;ASSOCIATION_FOREIGNKEY:ID"`
 	Annexs          []uint64            `zh:"附件" json:"annexs" gorm:"-"`
 	AnnexsEntity    []ArticleAnnexModel `zh:"附件" json:"annexsEntity" gorm:"FOREIGNKEY:ArticleID;ASSOCIATION_FOREIGNKEY:ID"`
+	CommentCount    uint16              `zh:"评论数" json:"commentCount" gorm:"-"`
+	HeartCount      uint16              `zh:"点赞数" json:"heartCount" gorm:"-"`
+	HeartUserID     []uint64            `zh:"点赞用户" json:"heartUserID" gorm:"-"`
 }
 
 type ArticleReqStruct struct {
@@ -64,6 +67,19 @@ func (am *ArticleModel) AfterFind(tx *gorm.DB) (err error) {
 	}
 	am.CreatedTime = util.TimeFormat(*am.CreatedAt)
 	am.UpdatedTime = util.TimeFormat(*am.UpdatedAt)
+
+	userIds, err := QueryArticleHeartUserById(am.ID)
+	if err != nil {
+		return err
+	}
+	am.HeartCount = uint16(len(userIds))
+	am.HeartUserID = userIds
+
+	commentCount, err := QueryArticleCommentCount(am.ID)
+	if err != nil {
+		return err
+	}
+	am.CommentCount = commentCount
 	return
 }
 

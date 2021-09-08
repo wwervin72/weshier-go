@@ -8,7 +8,7 @@ export function ArticleFetch(params) {
 }
 
 /**
- * 创建 tag
+ * 创建文章
  * @param {*} data
  */
 export function createArticle(data) {
@@ -20,7 +20,7 @@ export function createArticle(data) {
 }
 
 /**
- * 创建 tag
+ * 更新文章
  * @param {*} data
  */
 export function updateArticle(data) {
@@ -32,11 +32,30 @@ export function updateArticle(data) {
 }
 
 /**
- * 获取 tag 详情
+ * 获取文章详情
  */
 export function fetchArticleInfo(id) {
 	return ArticleFetch({
 		url: `/detail/${id}`,
+	})
+}
+
+/**
+ * 文章点赞
+ */
+export function HeartArticle(id) {
+	return ArticleFetch({
+		url: `/heart/${id}`,
+	})
+}
+
+/**
+ * 取消文章点赞
+ */
+export function CancelHeartArticle(id) {
+	return ArticleFetch({
+		url: `/heart/${id}`,
+		method: "delete"
 	})
 }
 

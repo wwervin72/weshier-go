@@ -20,10 +20,10 @@
 							</router-link>
 							<a href="javascript:;">发布于 {{article.createdAt}}</a>
 							<router-link class="heart_num ws_iconfont ws_heart" :to="`/a/${article.id}#heart_row`">
-								{{0}}
+								{{article.heartCount || 0}}
 							</router-link>
 							<router-link class="heart_num ws_iconfont ws_comment" :to="`/a/${article.id}#comment`">
-								{{0}}
+								{{article.commentCount || 0}}
 							</router-link>
 						</div>
 						<h4 class="grid__item-tag">

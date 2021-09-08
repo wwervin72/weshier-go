@@ -71,7 +71,7 @@ import 'github-markdown-css/github-markdown.css'
 // import "highlight.js/styles/default.css";
 // import "highlight.js/styles/atom-one-dark.css";
 
-import { fetchArticleInfo } from "@/api/fetch/article";
+import { fetchArticleInfo, HeartArticle, CancelHeartArticle } from "@/api/fetch/article";
 import { articleCommentPagination } from "@/api/fetch/comment";
 import wsAvatar from '@/components/avatar'
 import wsCommentEditor from '@/components/commentEditor'
@@ -135,6 +135,7 @@ export default {
 			fetchArticleInfo(this.articleId)
 				.then(res => {
 					if (res.code === 200) {
+						isHeart([res.data])
 						this.article = res.data;
 					}
 				})
@@ -160,7 +161,6 @@ export default {
 				if (res.code === 200) {
 					this.total = res.data.data.total
 					isHeart(res.data.data.list)
-					console.log(res.data.data.list);
 					this.comments = res.data.data.list
 				}
 			})
@@ -177,7 +177,19 @@ export default {
 			this.pageNumber = pageNumber - 1
 			this.commentPagination()
 		},
-		heartArticle() {},
+		heartArticle() {
+			if (this.article.hearted) {
+				CancelHeartArticle(this.article.id).then(() => {
+					this.$set(this.article, 'hearted', false)
+					this.$set(this.article, 'heartCount', (this.article.heartCount || 1) - 1)
+				}).catch(() => {})
+			} else {
+				HeartArticle(this.article.id).then(() => {
+					this.$set(this.article, 'hearted', true)
+					this.$set(this.article, 'heartCount', (this.article.heartCount || 0) + 1)
+				}).catch(() => {})
+			}
+		},
 		delComment(comment) {
 			const index = this.comments.findIndex(el => el.id === comment.id);
 			if (index !== -1) {

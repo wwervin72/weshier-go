@@ -93,6 +93,12 @@ func CommentPagination(data *request.PaginationReqStruct, articleId uint64) (err
 	return nil, list, count
 }
 
+func QueryArticleCommentCount(articleId uint64) (count uint16, err error) {
+	cm := &CommentModel{}
+	tx := DB.Self.Model(cm).Where("article_id = ?", articleId).Count(&count)
+	return count, tx.Error
+}
+
 func QueryCommentReplyPagination(articleId, commentId uint64, data *request.PaginationReqStruct) (error, []CommentModel, uint) {
 	pagesize := data.PageSize
 	pageNumber := data.PageNumber
