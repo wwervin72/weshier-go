@@ -12,12 +12,12 @@
 						<router-link v-if="isAdmin" to="/editor">写点啥？</router-link>
 						<div class="user_dropdown">
 							<template v-if="user.authId === 0">
-								<router-link :to="`/u/${user.id}`">
+								<router-link :to="`/user/${user.id}`">
 									<img :src="user.avatar || require('../assets/header/defaultUserAvatar.png')" class="avatar" :title="user.nickName">
 								</router-link>
 								<ul class="dropdown">
 									<li>
-										<router-link :to="`/u/${user.id}`" class="ws_iconfont ws_gerenzhuye">
+										<router-link :to="`/user/${user.id}`" class="ws_iconfont ws_gerenzhuye">
 										</router-link>
 									</li>
 									<li>

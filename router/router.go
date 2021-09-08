@@ -55,6 +55,8 @@ func Load(g *gin.Engine, mw ...gin.HandlerFunc) *gin.Engine {
 		articleGroup := api.Group("/article")
 		{
 			articleGroup.POST("", middleware.LoginRequired, middleware.IsAdmin, article.Create)
+			articleGroup.GET("/heart/:articleId", middleware.LoginRequired, article.HeartArticle)
+			articleGroup.DELETE("/heart/:articleId", middleware.LoginRequired, article.CancelHeartArticle)
 			articleGroup.PUT("", middleware.LoginRequired, middleware.IsAdmin, article.Update)
 			articleGroup.GET("/detail/:articleId", article.QueryArticleDetailByID)
 			articleGroup.GET("/page", article.QueryArticleList)
@@ -64,6 +66,9 @@ func Load(g *gin.Engine, mw ...gin.HandlerFunc) *gin.Engine {
 		commentGroup := api.Group("/comment")
 		{
 			commentGroup.POST("", middleware.LoginRequired, comment.LeaveComment)
+			commentGroup.DELETE("", middleware.LoginRequired, comment.DeleteComment)
+			commentGroup.GET("/heart/:commentId", middleware.LoginRequired, comment.HeartComment)
+			commentGroup.DELETE("/heart/:commentId", middleware.LoginRequired, comment.CancelHeartComment)
 			commentGroup.POST("/article", middleware.LoginRequired, comment.CommentArticle)
 			commentGroup.GET("/article/:articleId/page", comment.ArticleCommentPagination)
 			commentGroup.GET("/page", comment.CommentPagination)

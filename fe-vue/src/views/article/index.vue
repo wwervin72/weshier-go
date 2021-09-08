@@ -4,9 +4,9 @@
 		<template v-else>
 			<h1 class="ws_title">{{article.title}}</h1>
 			<div class="head_info" v-if="article.author">
-				<ws-avatar :to="`/u/${article.authorId}`" :avatar="article.author.avatar || undefined"></ws-avatar>
+				<ws-avatar :to="`/user/${article.authorId}`" :avatar="article.author.avatar || undefined"></ws-avatar>
 				<div class="info_right">
-					<router-link :to="`/u/${article.author.id}`">
+					<router-link :to="`/user/${article.author.id}`">
 						<span>{{article.author.nickName}}</span>
 						<a-tag class="author" color="pink">作者</a-tag>
 					</router-link>
@@ -35,14 +35,14 @@
 			<div class="article_info">
 				<div class="info_lf">
 					<a-icon type="tag" class="tag_icon" />
-					<router-link v-for="tagEntity in article.tagsEntity" :key="tagEntity.id" :to="`/u/${article.authorId}/t/${tagEntity.tag.id}`">
+					<router-link v-for="tagEntity in article.tagsEntity" :key="tagEntity.id" :to="`/user/${article.authorId}/tag/${tagEntity.tag.id}`">
 						<a-tag color="pink">
 							{{tagEntity.tag.name}}
 						</a-tag>
 					</router-link>
 				</div>
 				<div class="info_rt">
-					<router-link :to="`/u/${article.authorId}/c/${article.categoryId}`">
+					<router-link :to="`/user/${article.authorId}/cata/${article.categoryId}`">
 						<a-tag color="pink">
 							{{article.categoryId}}
 						</a-tag>
@@ -54,8 +54,8 @@
 			<ws-comment-editor class="comment_editor" :article-id="article.id" @add-comment="addComment"></ws-comment-editor>
 			<a-skeleton v-if="loadingComments" active />
 			<template v-else>
-				<ws-comment v-for="comment in comments" :key="comment.id" :comment="comment"
-					:article-id="article.id" :article-author="article.author.id"></ws-comment>
+				<ws-comment v-for="comment in comments" :key="comment.id" :comment="comment" @heart-comment="heartComment" @cancel-heart-comment="cancelHeartComment"
+					:article-id="article.id" :article-author="article.author && article.author.id" @delete-comment="delComment"></ws-comment>
 			</template>
 			<a-pagination class="article_pagination" :default-current="pageNumber" @change="pagination" :total="total" />
 		</div>
@@ -71,11 +71,12 @@ import 'github-markdown-css/github-markdown.css'
 // import "highlight.js/styles/default.css";
 // import "highlight.js/styles/atom-one-dark.css";
 
-import { fetchArticleInfo } from "@/api/fetch/article";
+import { fetchArticleInfo, HeartArticle, CancelHeartArticle } from "@/api/fetch/article";
 import { articleCommentPagination } from "@/api/fetch/comment";
 import wsAvatar from '@/components/avatar'
 import wsCommentEditor from '@/components/commentEditor'
 import wsComment from '@/components/comment'
+import { isHeart } from '@/utils/utils'
 export default {
 	name: "WsArticlePage",
 	components: {
@@ -134,6 +135,7 @@ export default {
 			fetchArticleInfo(this.articleId)
 				.then(res => {
 					if (res.code === 200) {
+						isHeart([res.data])
 						this.article = res.data;
 					}
 				})
@@ -158,6 +160,7 @@ export default {
 			.then(res => {
 				if (res.code === 200) {
 					this.total = res.data.data.total
+					isHeart(res.data.data.list)
 					this.comments = res.data.data.list
 				}
 			})
@@ -174,7 +177,33 @@ export default {
 			this.pageNumber = pageNumber - 1
 			this.commentPagination()
 		},
-		heartArticle() {},
+		heartArticle() {
+			if (this.article.hearted) {
+				CancelHeartArticle(this.article.id).then(() => {
+					this.$set(this.article, 'hearted', false)
+					this.$set(this.article, 'heartCount', (this.article.heartCount || 1) - 1)
+				}).catch(() => {})
+			} else {
+				HeartArticle(this.article.id).then(() => {
+					this.$set(this.article, 'hearted', true)
+					this.$set(this.article, 'heartCount', (this.article.heartCount || 0) + 1)
+				}).catch(() => {})
+			}
+		},
+		delComment(comment) {
+			const index = this.comments.findIndex(el => el.id === comment.id);
+			if (index !== -1) {
+				this.comments.splice(index, 1)
+			}
+		},
+		heartComment(comment) {
+			this.$set(comment, 'hearted', true)
+			this.$set(comment, 'heartCount', comment.heartCount + 1)
+		},
+		cancelHeartComment(comment) {
+			this.$set(comment, 'hearted', false)
+			this.$set(comment, 'heartCount', Math.max(comment.heartCount - 1, 0))
+		},
 	}
 };
 </script>

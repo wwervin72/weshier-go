@@ -73,6 +73,9 @@ func ParseRequest(c *gin.Context) (string, error) {
 	var tokenKey string
 	// parse the header o get the token part
 	fmt.Sscanf(header, "Bearer %s", &tokenKey)
+	if tokenKey == "null" {
+		return "", errno.ErrNeedLogin
+	}
 	return tokenKey, nil
 }
 

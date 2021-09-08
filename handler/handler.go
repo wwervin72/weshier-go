@@ -36,8 +36,11 @@ func GetUserFromContext(c *gin.Context) (error, *token.JWTClaims) {
 		logger.Logger.DPanic("get user from gin context failed")
 		return errno.InternalServerError, nil
 	}
-	user := u.(*token.JWTClaims)
-	return nil, user
+	if u != nil {
+		user := u.(*token.JWTClaims)
+		return nil, user
+	}
+	return nil, nil
 }
 
 func GetTokenKeyFromContext(c *gin.Context) (error, string) {

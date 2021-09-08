@@ -103,7 +103,7 @@ const router = new vueRouter({
 						)
 				},
 				{
-					path: "t/:tagId",
+					path: "tag/:tagId",
 					name: "tagArticles",
 					props: true,
 					component: () =>
@@ -121,7 +121,7 @@ const router = new vueRouter({
 						)
 				},
 				{
-					path: "u/:userId",
+					path: "user/:userId",
 					name: "user",
 					meta: {
 						role: [roles.admin]
@@ -132,7 +132,7 @@ const router = new vueRouter({
 						)
 				},
 				{
-					path: "u/:userId/t/:tagId",
+					path: "user/:userId/tag/:tagId",
 					name: "userTagArticles",
 					props: true,
 					meta: {
@@ -144,7 +144,7 @@ const router = new vueRouter({
 						)
 				},
 				{
-					path: "u/:userId/c/:cataId",
+					path: "user/:userId/cata/:cataId",
 					name: "userCataArticles",
 					props: true,
 					component: () =>
