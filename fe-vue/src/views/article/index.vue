@@ -4,9 +4,9 @@
 		<template v-else>
 			<h1 class="ws_title">{{article.title}}</h1>
 			<div class="head_info" v-if="article.author">
-				<ws-avatar :to="`/u/${article.authorId}`" :avatar="article.author.avatar || undefined"></ws-avatar>
+				<ws-avatar :to="`/user/${article.authorId}`" :avatar="article.author.avatar || undefined"></ws-avatar>
 				<div class="info_right">
-					<router-link :to="`/u/${article.author.id}`">
+					<router-link :to="`/user/${article.author.id}`">
 						<span>{{article.author.nickName}}</span>
 						<a-tag class="author" color="pink">作者</a-tag>
 					</router-link>
@@ -35,14 +35,14 @@
 			<div class="article_info">
 				<div class="info_lf">
 					<a-icon type="tag" class="tag_icon" />
-					<router-link v-for="tagEntity in article.tagsEntity" :key="tagEntity.id" :to="`/u/${article.authorId}/t/${tagEntity.tag.id}`">
+					<router-link v-for="tagEntity in article.tagsEntity" :key="tagEntity.id" :to="`/user/${article.authorId}/tag/${tagEntity.tag.id}`">
 						<a-tag color="pink">
 							{{tagEntity.tag.name}}
 						</a-tag>
 					</router-link>
 				</div>
 				<div class="info_rt">
-					<router-link :to="`/u/${article.authorId}/c/${article.categoryId}`">
+					<router-link :to="`/user/${article.authorId}/cata/${article.categoryId}`">
 						<a-tag color="pink">
 							{{article.categoryId}}
 						</a-tag>

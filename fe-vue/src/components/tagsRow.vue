@@ -1,7 +1,7 @@
 <template>
 	<div class="tag_list" ref="tags" v-if="tagList.length">
 		<strong>标签：</strong>
-		<router-link class="tag" v-for="tag in tagList" :key="tag.value" :to="`/t/${tag.value}`">
+		<router-link class="tag" v-for="tag in tagList" :key="tag.value" :to="`/tag/${tag.value}`">
 			<a-tag color="pink">{{tag.label}}</a-tag>
 		</router-link>
 	</div>

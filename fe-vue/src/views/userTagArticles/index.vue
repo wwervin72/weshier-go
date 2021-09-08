@@ -1,7 +1,7 @@
 <template>
 	<div class="ws_articles">
 		<ws-articles :articles="articles" ref="articles"></ws-articles>
-		<a-pagination :default-current="pageNumber" show-quick-jumper @change="pagination" :total="total" />
+		<a-pagination class="text_rt ws_pagination" :default-current="pageNumber" show-quick-jumper @change="pagination" :total="total" />
 	</div>
 </template>
 
@@ -59,5 +59,6 @@ export default {
 	width: 90%;
 	min-width: 768px;
 	margin: 0 auto;
+	padding: 25px 0;
 }
 </style>

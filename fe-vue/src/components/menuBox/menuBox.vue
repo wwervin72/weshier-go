@@ -80,7 +80,7 @@
 			<div class="menu__item menu__item--3" data-direction="bt">
 				<div class="menu__item-inner">
 					<div class="sidemenu">
-						<router-link class="sidemenu__item" v-for="tag in tagList" :key="tag.value" :to="`/t/${tag.value}`">
+						<router-link class="sidemenu__item" v-for="tag in tagList" :key="tag.value" :to="`/tag/${tag.value}`">
 							<span class="sidemenu__item-inner">{{tag.label}}</span>
 						</router-link>
 						<router-link class="sidemenu__item" to="/articles">

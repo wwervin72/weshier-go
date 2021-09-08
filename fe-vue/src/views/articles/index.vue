@@ -77,6 +77,7 @@ export default {
 .ws_articles {
 	width: 90%;
 	min-width: 768px;
+	padding: 25px 0;
 	margin: 0 auto;
 }
 

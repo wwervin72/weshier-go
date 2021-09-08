@@ -1,6 +1,6 @@
 <template>
 	<a-comment class="ws_comment">
-		<router-link slot="author" :to="`/u/${comment.author.id}`">
+		<router-link slot="author" :to="`/user/${comment.author.id}`">
 			{{comment.author.nickName}}
 			<a-tag color="pink" v-if="comment.author.id === articleAuthor">作者</a-tag>
 		</router-link>
@@ -28,7 +28,7 @@
 				<span key="comment-basic-reply-to" v-if="isAdmin" @click="delComment">删除</span>
 			</a-popconfirm>
 		</template>
-		<router-link slot="avatar" :to="`/u/${comment.author.id}`">
+		<router-link slot="avatar" :to="`/user/${comment.author.id}`">
 			<ws-avatar
 				:avatar="assetsBaseUrl + comment.author.avatar"
 				:title="comment.author.nickName"

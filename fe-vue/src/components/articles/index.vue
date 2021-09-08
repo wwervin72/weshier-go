@@ -15,7 +15,7 @@
 					<p class="grid__item-content">{{article.abstract}}</p>
 					<div class="grid__item-base">
 						<div class="grid__item-info">
-							<router-link class="title" :to="`/u/${article.authorId}`">
+							<router-link class="title" :to="`/user/${article.authorId}`">
 								{{article.author.nickName}}
 							</router-link>
 							<a href="javascript:;">发布于 {{article.createdAt}}</a>
@@ -27,7 +27,7 @@
 							</router-link>
 						</div>
 						<h4 class="grid__item-tag">
-							<router-link v-for="tagEntity in article.tagsEntity" :key="tagEntity.id" class="tag_item" :to="`/u/${article.authorId}/t/${tagEntity.tag.id}`">
+							<router-link v-for="tagEntity in article.tagsEntity" :key="tagEntity.id" class="tag_item" :to="`/user/${article.authorId}/tag/${tagEntity.tag.id}`">
 								<a-tag color="pink">
 									{{tagEntity.tag.name}}
 								</a-tag>

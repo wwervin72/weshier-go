@@ -13,7 +13,7 @@
 		</div>
 		<div class="base_info">
 			<div class="info_lf">
-				<router-link class="title" :to="`/u/${article.authorId}`">
+				<router-link class="title" :to="`/user/${article.authorId}`">
 					{{article.author.nickName}}
 				</router-link>
 				发布于 {{article.createdAt}}

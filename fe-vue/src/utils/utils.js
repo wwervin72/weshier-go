@@ -34,3 +34,39 @@ export function judgeHearted(item, uid) {
 		})
 	}
 }
+
+/**
+ * 切换浏览器 tab 页监听事件
+ */
+ export function switchBrowserTabs() {
+	let selfTitle = document.title;
+	document.addEventListener("visibilitychange", function () {
+		if (document.visibilityState == "hidden") {
+			document.title = "糟糕！出BUG了，快看";
+		} else {
+			document.title = selfTitle;
+		}
+	});
+}
+
+/**
+ * 粘贴事件，往粘贴板增加自定义内容
+ */
+ export function copySiteInfo() {
+	document.body.addEventListener("copy", function (evt) {
+		var clipboardData = evt.clipboardData || window.clipboardData;
+		var selection = window.getSelection().toString();
+		if (clipboardData && selection) {
+			evt.preventDefault();
+			var siteInfo = [
+				"作者：ervin",
+				"来自：微识",
+				"链接：" + window.location.href,
+				"",
+				selection,
+			];
+			clipboardData.setData("text/html", siteInfo.join("<br>")),
+				clipboardData.setData("text/plain", siteInfo.join("\n"));
+		}
+	});
+}
