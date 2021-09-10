@@ -20,6 +20,10 @@
 				<div class="info_lf">
 					<a-icon
 						type="heart"
+						:style="{
+							fontSize: '13px'
+						}"
+						class="article_heart"
 						:theme="article.hearted ? 'filled' : 'outlined'"
 						@click="heartArticle"
 					/>
@@ -52,12 +56,15 @@
 		</template>
 		<div id="comment">
 			<ws-comment-editor class="comment_editor" :article-id="article.id" @add-comment="addComment"></ws-comment-editor>
+			<p class="comments_area_title">
+				<strong>全部评论</strong>{{article.commentCount || 0}}
+			</p>
 			<a-skeleton v-if="loadingComments" active />
 			<template v-else>
 				<ws-comment v-for="comment in comments" :key="comment.id" :comment="comment" @heart-comment="heartComment" @cancel-heart-comment="cancelHeartComment"
 					:article-id="article.id" :article-author="article.author && article.author.id" @delete-comment="delComment"></ws-comment>
 			</template>
-			<a-pagination class="article_pagination" :default-current="pageNumber" @change="pagination" :total="total" />
+			<a-pagination v-if="comments && comments.length" class="article_pagination" :default-current="pageNumber" @change="pagination" :total="total" />
 		</div>
 	</div>
 </template>
@@ -266,5 +273,21 @@ export default {
 .article_pagination {
 	margin-top: 50px;
 	text-align: right;
+}
+.comments_area_title {
+	padding-left: 10px;
+	border-left: 5px solid $pinkColor;
+	margin-bottom: 10px;
+	strong {
+		font-size: 18px;
+		color: $emphasisColor;
+		margin-right: 5px;
+	}
+}
+.article_heart {
+	margin-right: 3px;
+	&, &+span {
+		vertical-align: middle;
+	}
 }
 </style>

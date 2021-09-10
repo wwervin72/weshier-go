@@ -59,7 +59,12 @@ const router = new vueRouter({
 			path: "/",
 			name: "home",
 			component: () =>
-				import(/* webpackChunkName: "home" */ "../views/home/index.vue")
+				import(
+					/* webpackChunkName: "home" */ "../views/home/index.vue"
+				),
+			meta: {
+				keepAlive: true
+			}
 		},
 		{
 			path: loginPath,
@@ -100,7 +105,10 @@ const router = new vueRouter({
 					component: () =>
 						import(
 							/* webpackChunkName: "articles" */ "../views/articles/index.vue"
-						)
+						),
+					meta: {
+						keepAlive: true
+					}
 				},
 				{
 					path: "tag/:tagId",
@@ -157,12 +165,13 @@ const router = new vueRouter({
 					name: "editor",
 					meta: {
 						footer: false,
-						role: [roles.admin]
+						role: [roles.admin],
+						keepAlive: true
 					},
 					component: () =>
 						import(
 							/* webpackChunkName: "editor" */ "../views/editor/index.vue"
-						)
+						),
 				},
 				{
 					path: "update/:articleId",
@@ -175,7 +184,7 @@ const router = new vueRouter({
 					component: () =>
 						import(
 							/* webpackChunkName: "editor" */ "../views/editor/index.vue"
-						),
+						)
 				},
 				{
 					path: "setting",
@@ -210,7 +219,8 @@ const router = new vueRouter({
 							meta: {
 								role: [roles.admin],
 								footer: false,
-								menu: settingPageMenus
+								menu: settingPageMenus,
+								keepAlive: true
 							}
 						},
 						{
@@ -223,7 +233,8 @@ const router = new vueRouter({
 							meta: {
 								role: [roles.admin],
 								footer: false,
-								menu: settingPageMenus
+								menu: settingPageMenus,
+								keepAlive: true
 							}
 						},
 						{
@@ -236,7 +247,8 @@ const router = new vueRouter({
 							meta: {
 								footer: false,
 								role: [roles.admin],
-								menu: settingPageMenus
+								menu: settingPageMenus,
+								keepAlive: true
 							}
 						},
 						{
@@ -249,7 +261,8 @@ const router = new vueRouter({
 							meta: {
 								footer: false,
 								role: [roles.admin],
-								menu: settingPageMenus
+								menu: settingPageMenus,
+								keepAlive: true
 							}
 						},
 						{
@@ -276,7 +289,8 @@ const router = new vueRouter({
 							meta: {
 								footer: false,
 								role: [roles.admin],
-								menu: settingPageMenus
+								menu: settingPageMenus,
+								keepAlive: true
 							}
 						}
 					]
@@ -289,7 +303,8 @@ const router = new vueRouter({
 							/* webpackChunkName: "comment" */ "../views/comment/index.vue"
 						),
 					meta: {
-						role: [roles.admin, roles.tourist]
+						role: [roles.admin, roles.tourist],
+						keepAlive: true
 					}
 				},
 				{
@@ -300,7 +315,8 @@ const router = new vueRouter({
 							/* webpackChunkName: "admin" */ "../views/admin/index.vue"
 						),
 					meta: {
-						role: [roles.admin]
+						role: [roles.admin],
+						keepAlive: true
 					}
 				},
 				{
@@ -358,7 +374,7 @@ router.beforeEach((to, from, next) => {
 	} else {
 		if (to.meta.role && !to.meta.role.includes(role)) {
 			// 使用 next() 会报错 vue-router 希望每个导航操作只有一个重定向
-			router.push(from.path)
+			router.push(from.path);
 		} else {
 			next();
 		}

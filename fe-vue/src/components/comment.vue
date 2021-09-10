@@ -5,7 +5,7 @@
 			<a-tag color="pink" v-if="comment.author.id === articleAuthor">作者</a-tag>
 		</router-link>
 		<template slot="actions">
-			<span key="comment-basic-like">
+			<span key="comment-basic-like" class="comment_handle_icon">
 				<a-tooltip title="喜欢">
 					<a-icon
 						type="heart"
@@ -16,16 +16,16 @@
 						@click="heart"
 					/>
 				</a-tooltip>
-				<span style="padding-left: '8px';cursor: 'auto'">{{comment.heartCount}}</span>
+				<span class="comment_statistic">{{comment.heartCount}}</span>
 			</span>
-			<span key="comment-basic-reply-to" @click="opReplyEditor">回复</span>
+			<span key="comment-basic-reply-to" class="comment_handle_icon" @click="opReplyEditor">回复</span>
 			<a-popconfirm
 				title="确认删除该评论吗？"
 				ok-text="删除"
 				cancel-text="取消"
 				@confirm="confirmDelComment"
 			>
-				<span key="comment-basic-reply-to" v-if="isAdmin" @click="delComment">删除</span>
+				<span key="comment-basic-reply-to" class="comment_handle_icon" v-if="isAdmin" @click="delComment">删除</span>
 			</a-popconfirm>
 		</template>
 		<router-link slot="avatar" :to="`/user/${comment.author.id}`">
@@ -159,5 +159,26 @@ export default {
 		display: block;
 		width: 100%;
 	}
+}
+.comment_handle_icon {
+	color: $placeholdeColor;
+	transition-duration: 0;
+	/deep/ {
+		i {
+			vertical-align: middle;
+		}
+	}
+	&:hover {
+		&, .comment_statistic {
+			color: $fontColor;
+		}
+	}
+}
+.comment_statistic {
+	margin-left: 2px;
+	cursor: pointer;
+	transition-duration: 0;
+	vertical-align: middle;
+	color: $placeholdeColor;
 }
 </style>

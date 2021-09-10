@@ -51,17 +51,17 @@
 			<div class="background">
 				<div class="background__copy" v-for="item in 4" :key="item"></div>
 			</div>
-			<h2 class="content__title">Weshier</h2>
-			<p class="content__tagline">一个博客记录网站</p>
+			<!-- <h2 class="content__title">Weshier</h2>
+			<p class="content__tagline">一个博客记录网站</p> -->
 		</div>
 		<nav class="menu">
 			<div class="menu__item menu__item--1" data-direction="bt">
 				<div class="menu__item-inner">
 					<div class="mainmenu">
-						<a href="#" class="mainmenu__item">美滋滋</a>
-						<a href="/articles" class="mainmenu__item">疯狂打码</a>
-						<a href="#" class="mainmenu__item">小憩一下</a>
-						<a href="#" class="mainmenu__item">咦！这是啥</a>
+						<router-link to="/" class="mainmenu__item">美滋滋</router-link>
+						<router-link to="/articles" class="mainmenu__item">疯狂打码</router-link>
+						<router-link to="/" class="mainmenu__item">小憩一下</router-link>
+						<router-link to="/" class="mainmenu__item">咦！这是啥</router-link>
 					</div>
 					<p class="label label--topleft">
 						the episode of my life

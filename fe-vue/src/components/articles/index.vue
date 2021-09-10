@@ -7,7 +7,7 @@
 				}">
 					<div class="grid__item-bg"></div>
 					<router-link :to="`/a/${article.id}`">
-						<h3 class="grid__item-title">{{article.title}}</h3>
+						<h3 class="grid__item-title"><span class="topping" v-if="article.topping">[置顶]</span>{{article.title}}</h3>
 					</router-link>
 					<div class="grid__item-wrap" @click.prevent="openItem(index, $event)">
 						<img class="grid__item-img" :src="`${assetsBaseUrl + article.thumbnail}`" :title="`${article.title}`">
@@ -15,16 +15,12 @@
 					<p class="grid__item-content">{{article.abstract}}</p>
 					<div class="grid__item-base">
 						<div class="grid__item-info">
-							<router-link class="title" :to="`/user/${article.authorId}`">
+							<router-link class="title " :to="`/user/${article.authorId}`">
 								{{article.author.nickName}}
 							</router-link>
-							<a href="javascript:;">发布于 {{article.createdAt}}</a>
-							<router-link class="heart_num ws_iconfont ws_heart" :to="`/a/${article.id}#heart_row`">
-								{{article.heartCount || 0}}
-							</router-link>
-							<router-link class="heart_num ws_iconfont ws_comment" :to="`/a/${article.id}#comment`">
-								{{article.commentCount || 0}}
-							</router-link>
+							<a href="javascript:;">发布于:{{article.createdAt}}</a>
+							<router-link class="heart_num ws_iconfont ws_heart" :to="`/a/${article.id}#heart_row`">{{article.heartCount || 0}}</router-link>
+							<router-link class="heart_num ws_iconfont ws_comment" :to="`/a/${article.id}#comment`">{{article.commentCount || 0}}</router-link>
 						</div>
 						<h4 class="grid__item-tag">
 							<router-link v-for="tagEntity in article.tagsEntity" :key="tagEntity.id" class="tag_item" :to="`/user/${article.authorId}/tag/${tagEntity.tag.id}`">
@@ -151,12 +147,32 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+@import "@/styles/_variables.scss";
 $ColorText: #4800d4;
 $ColorBg: #e8e8e8;
 $ColorLink: #ec1752;
 $ColorLinkHover: #eb1851;
 $ColorInfo: #272526;
 $gridItemBg: #f1f1f1;
+
+@keyframes fadeAway {
+	30% {
+		filter: brightness(1);
+	}
+	100% {
+		filter: brightness(0);
+	}
+}
+
+@keyframes textShow {
+	20% {
+		opacity: 0;
+	}
+	100% {
+		opacity: 1;
+	}
+}
+
 .icon {
 	display: block;
 	width: 1.5em;
@@ -265,6 +281,26 @@ main {
 	position: relative;
 	padding: 15px 15px 8px 15px;
 	margin-bottom: 5rem;
+	&::before {
+		z-index: -1;
+		content: '';
+		position: absolute;
+		top: 0;
+		left: 0;
+		bottom: 0;
+		right: 0;
+		border-radius: 20px;
+		filter: blur(0px) opacity(1);
+		transition: filter 200ms linear, transform 200ms linear;
+	}
+	&:hover {
+		&:not(:hover)::before{
+			filter: blur(5px) opacity(0.8) brightness(0.8);
+		}
+		&::before {
+			filter: saturate(1.2);
+		}
+	}
 }
 
 .grid__item-wrap {
@@ -298,6 +334,10 @@ main {
 	transform: rotate3d(0, 0, 1, -3deg);
 }
 
+.topping {
+	margin-right: 3px;
+}
+
 .grid__item-title {
 	padding-bottom: 10px;
 	margin: 5px 0 0 10px;
@@ -307,6 +347,18 @@ main {
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
+}
+.grid__item-info {
+	/deep/ {
+		> a {
+			&.title {
+				color: $pinkColor;
+				font-weight: bold;
+			}
+			vertical-align: middle;
+			color: $shallowColor;
+		}
+	}
 }
 .grid__item-info,
 .grid__item-tag {
@@ -451,6 +503,19 @@ main {
 .content__close,
 .content__indicator {
 	opacity: 0;
+}
+.ws_heart,
+.ws_comment {
+	font-size: 14px;
+	&::before {
+		vertical-align: middle;
+	}
+}
+.ws_heart {
+	margin: 0 5px;
+	&::before {
+		font-size: 16px;
+	}
 }
 // @media screen and (min-width: 55em) {
 // 	.frame {

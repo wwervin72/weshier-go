@@ -1,7 +1,10 @@
 <template>
 	<div class="ws_layout" :class="[showFooter ? 'footer_layout' : '']">
 		<ws-header></ws-header>
-		<router-view class="ws_main"></router-view>
+		<keep-alive v-if="$route.meta.keepAlive">
+			<router-view class="ws_main"></router-view>
+		</keep-alive>
+		<router-view v-else class="ws_main"></router-view>
 		<ws-footer v-show="showFooter" class="ws_footer"></ws-footer>
 	</div>
 </template>
@@ -21,7 +24,9 @@ export default {
 		}
 	},
 	data() {
-		return {}
+		return {
+			notKeepAlive: [""]
+		}
 	}
 }
 </script>
