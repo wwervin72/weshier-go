@@ -2,13 +2,12 @@
 	<div class="ws_articles">
 		<tags-row :tagList="tagList" ref="tagRow"></tags-row>
 		<ws-articles :articles="articles" ref="articles"></ws-articles>
-		<a-pagination class="text_rt ws_pagination" :default-current="pageNumber" show-quick-jumper @change="pagination" :total="total" />
-		<back-top class="backtop"></back-top>
+		<pagination class="text_rt ws_pagination" :default-current="pageNumber" show-quick-jumper @change="pagination" :total="total" />
 	</div>
 </template>
 
 <script>
-import { Pagination, BackTop } from 'ant-design-vue';
+import { Pagination } from 'ant-design-vue';
 import { articlePagination } from '@/api/fetch/article';
 import { fetchTagList } from '@/api/fetch/tag';
 import WsArticles from '@/components/articles/index.vue';
@@ -18,9 +17,8 @@ export default {
 	name: "WsArticlesPage",
 	components: {
 		WsArticles,
-		BackTop,
 		tagsRow,
-		APagination: Pagination
+		Pagination
 	},
 	data() {
 		return {

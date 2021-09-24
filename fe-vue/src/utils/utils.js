@@ -38,15 +38,25 @@ export function judgeHearted(item, uid) {
 /**
  * 切换浏览器 tab 页监听事件
  */
- export function switchBrowserTabs() {
-	let selfTitle = document.title;
+let selfTitle = document.title;
+export function switchBrowserTabs() {
 	document.addEventListener("visibilitychange", function () {
 		if (document.visibilityState == "hidden") {
-			document.title = "糟糕！出BUG了，快看";
+			changeTitle("糟糕！出BUG了，快看", "微识")
 		} else {
-			document.title = selfTitle;
+			resetTitle()
 		}
 	});
+}
+
+export function resetTitle() {
+	document.title = selfTitle
+	selfTitle = "微识"
+}
+
+export function changeTitle(title) {
+	selfTitle = document.title;
+	document.title = title;
 }
 
 /**
@@ -69,4 +79,11 @@ export function judgeHearted(item, uid) {
 				clipboardData.setData("text/plain", siteInfo.join("\n"));
 		}
 	});
+}
+
+export function hideHeader() {
+
+}
+export function showHeader() {
+
 }

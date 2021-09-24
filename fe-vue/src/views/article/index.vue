@@ -2,20 +2,21 @@
 	<div class="ws_article">
 		<a-skeleton v-if="loadingArticle" active />
 		<template v-else>
-			<h1 class="ws_title">{{article.title}}</h1>
+			<h1 class="ws_title">{{ article.title }}</h1>
 			<div class="head_info" v-if="article.author">
-				<ws-avatar :to="`/user/${article.authorId}`" :avatar="article.author.avatar || undefined"></ws-avatar>
+				<ws-avatar
+					:to="`/user/${article.authorId}`"
+					:avatar="article.author.avatar || undefined"
+				></ws-avatar>
 				<div class="info_right">
 					<router-link :to="`/user/${article.author.id}`">
-						<span>{{article.author.nickName}}</span>
+						<span>{{ article.author.nickName }}</span>
 						<a-tag class="author" color="pink">作者</a-tag>
 					</router-link>
-					<p>
-						发布于 {{article.createdAt}}
-					</p>
+					<p>发布于 {{ article.createdAt }}</p>
 				</div>
 			</div>
-			<div class="markdown-body" v-html="content"></div>
+			<div class="markdown-body" v-if="article && article.content" v-html="content"></div>
 			<div class="article_info">
 				<div class="info_lf">
 					<a-icon
@@ -27,10 +28,10 @@
 						:theme="article.hearted ? 'filled' : 'outlined'"
 						@click="heartArticle"
 					/>
-					<span>{{article.heartCount}}</span>
+					<span>{{ article.heartCount }}</span>
 				</div>
 				<div class="info_rt">
-					<a-icon type="delete" @click="delArticle"/>
+					<a-icon type="delete" @click="delArticle" />
 					<router-link :to="'/update/' + article.id">
 						<a-icon type="edit" />
 					</router-link>
@@ -39,51 +40,86 @@
 			<div class="article_info">
 				<div class="info_lf">
 					<a-icon type="tag" class="tag_icon" />
-					<router-link v-for="tagEntity in article.tagsEntity" :key="tagEntity.id" :to="`/user/${article.authorId}/tag/${tagEntity.tag.id}`">
+					<router-link
+						v-for="tagEntity in article.tagsEntity"
+						:key="tagEntity.id"
+						:to="
+							`/user/${article.authorId}/tag/${tagEntity.tag.id}`
+						"
+					>
 						<a-tag color="pink">
-							{{tagEntity.tag.name}}
+							{{ tagEntity.tag.name }}
 						</a-tag>
 					</router-link>
 				</div>
 				<div class="info_rt">
-					<router-link :to="`/user/${article.authorId}/cata/${article.categoryId}`">
+					<router-link
+						:to="
+							`/user/${article.authorId}/cata/${article.categoryId}`
+						"
+					>
 						<a-tag color="pink">
-							{{article.categoryId}}
+							{{ article.categoryId }}
 						</a-tag>
 					</router-link>
 				</div>
 			</div>
 		</template>
 		<div id="comment">
-			<ws-comment-editor class="comment_editor" :article-id="article.id" @add-comment="addComment"></ws-comment-editor>
+			<ws-comment-editor
+				class="comment_editor"
+				:article-id="article.id"
+				@add-comment="addComment"
+			></ws-comment-editor>
 			<p class="comments_area_title">
-				<strong>全部评论</strong>{{article.commentCount || 0}}
+				<strong>全部评论</strong><span>{{ article.commentCount || 0 }}</span>
 			</p>
 			<a-skeleton v-if="loadingComments" active />
 			<template v-else>
-				<ws-comment v-for="comment in comments" :key="comment.id" :comment="comment" @heart-comment="heartComment" @cancel-heart-comment="cancelHeartComment"
-					:article-id="article.id" :article-author="article.author && article.author.id" @delete-comment="delComment"></ws-comment>
+				<ws-comment
+					v-for="comment in comments"
+					:key="comment.id"
+					:comment="comment"
+					@heart-comment="heartComment"
+					@cancel-heart-comment="cancelHeartComment"
+					:article-id="article.id"
+					:article-author="article.author && article.author.id"
+					@delete-comment="delComment"
+				></ws-comment>
 			</template>
-			<a-pagination v-if="comments && comments.length" class="article_pagination" :default-current="pageNumber" @change="pagination" :total="total" />
+			<a-pagination
+				v-if="comments && comments.length"
+				class="article_pagination"
+				:default-current="pageNumber"
+				@change="pagination"
+				:total="total"
+			/>
 		</div>
+		<a :href="hashTarget" ref="hashJumpTrigger" class="hash_jump_trigger"></a>
 	</div>
 </template>
 
 <script>
-import { Pagination, Icon, Tag, Skeleton } from 'ant-design-vue'
+import { Pagination, Icon, Tag, Skeleton } from "ant-design-vue";
 import marked from "marked";
-import highlight from 'highlight.js';
-import DOMPurify from 'dompurify';
-import 'github-markdown-css/github-markdown.css'
+import highlight from "highlight.js";
+import DOMPurify from "dompurify";
+import "github-markdown-css/github-markdown.css";
+import { mapMutations } from 'vuex';
 // import "highlight.js/styles/default.css";
 // import "highlight.js/styles/atom-one-dark.css";
 
-import { fetchArticleInfo, HeartArticle, CancelHeartArticle } from "@/api/fetch/article";
+import {
+	fetchArticleInfo,
+	HeartArticle,
+	CancelHeartArticle
+} from "@/api/fetch/article";
 import { articleCommentPagination } from "@/api/fetch/comment";
-import wsAvatar from '@/components/avatar'
-import wsCommentEditor from '@/components/commentEditor'
-import wsComment from '@/components/comment'
-import { isHeart } from '@/utils/utils'
+import wsAvatar from "@/components/avatar";
+import wsCommentEditor from "@/components/commentEditor";
+import wsComment from "@/components/comment";
+import { isHeart, resetTitle, changeTitle } from "@/utils/utils";
+import MarkedToc from "@/utils/marked/toc";
 export default {
 	name: "WsArticlePage",
 	components: {
@@ -109,108 +145,148 @@ export default {
 			comments: [],
 			pageNumber: 0,
 			pageSize: 10,
-			total: 0
+			total: 0,
+			toc: null
 		};
 	},
 	created() {
+		this.toc = new MarkedToc()
 		this.fetchArticleInfo();
 		this.articleCommentPagination();
-		highlight.highlightAll()
+		highlight.highlightAll();
 	},
 	computed: {
+		hashTarget() {
+			const {hash} = this.$route
+			return hash.indexOf('#') === 0 ? hash : ''
+		},
 		content() {
+			const renderer = new marked.Renderer()
+			renderer.heading = (text, level) => {
+				const anchor = this.toc.add(text, level)
+				return `<a id="${anchor}" class="anchor_fix"><h${level}>${text}</h${level}></a>\n`
+			}
 			const d = marked(this.article.content || "", {
-				langPrefix: 'lang-',
-				sanitizer: function (str) {
-					console.log(arguments);
-					const res = DOMPurify.sanitize(str, {RETURN_DOM: true})
-					console.log(res);
-					return res
+				renderer,
+				headerIds: true,
+				langPrefix: "lang-",
+				sanitizer: function(str) {
+					const res = DOMPurify.sanitize(str, { RETURN_DOM: true });
+					return res;
 				},
 				highlight: function(code, language) {
-					const validLanguage = highlight.getLanguage(language) ? language : 'plaintext';
+					const validLanguage = highlight.getLanguage(language)
+						? language
+						: "plaintext";
 					return highlight.highlight(validLanguage, code).value;
-				},
+				}
+			});
+			this.toc.toHTML()
+			this.updateTocHtml(this.toc.result)
+			this.$nextTick(() => {
+				this.$refs.hashJumpTrigger.click()
 			})
-			return d
+			return d;
 		}
 	},
+	beforeDestroy() {
+		this.updateTocHtml(null)
+		resetTitle();
+	},
 	methods: {
+		...mapMutations(['updateTocHtml']),
 		delArticle() {},
 		fetchArticleInfo() {
-			this.loadingArticle = true
+			this.loadingArticle = true;
 			fetchArticleInfo(this.articleId)
 				.then(res => {
 					if (res.code === 200) {
-						isHeart([res.data])
+						isHeart([res.data]);
 						this.article = res.data;
+						changeTitle(`微识 - ${this.article.title}`);
 					}
 				})
 				.catch(err => {
-					if (process.env.NODE_ENV === 'development') {
+					if (process.env.NODE_ENV === "development") {
 						console.log(err);
 					}
 				})
 				.finally(() => {
-					this.loadingArticle = false
+					this.loadingArticle = false;
 				});
 		},
 		addComment(data) {
 			console.log(data);
 		},
 		articleCommentPagination() {
-			this.loadingComments = true
+			this.loadingComments = true;
 			articleCommentPagination(this.articleId, {
 				pageSize: this.pageSize,
 				pageNumber: this.pageNumber
 			})
-			.then(res => {
-				if (res.code === 200) {
-					this.total = res.data.data.total
-					isHeart(res.data.data.list)
-					this.comments = res.data.data.list
-				}
-			})
-			.catch(err => {
-				if (process.env.NODE_ENV === 'development') {
-					console.log(err);
-				}
-			})
-			.finally(() => {
-				this.loadingComments = false
-			});
+				.then(res => {
+					if (res.code === 200) {
+						this.total = res.data.data.total;
+						isHeart(res.data.data.list);
+						this.comments = res.data.data.list;
+					}
+				})
+				.catch(err => {
+					if (process.env.NODE_ENV === "development") {
+						console.log(err);
+					}
+				})
+				.finally(() => {
+					this.loadingComments = false;
+				});
 		},
 		pagination(pageNumber) {
-			this.pageNumber = pageNumber - 1
-			this.commentPagination()
+			this.pageNumber = pageNumber - 1;
+			this.commentPagination();
 		},
 		heartArticle() {
 			if (this.article.hearted) {
-				CancelHeartArticle(this.article.id).then(() => {
-					this.$set(this.article, 'hearted', false)
-					this.$set(this.article, 'heartCount', (this.article.heartCount || 1) - 1)
-				}).catch(() => {})
+				CancelHeartArticle(this.article.id)
+					.then(() => {
+						this.$set(this.article, "hearted", false);
+						this.$set(
+							this.article,
+							"heartCount",
+							(this.article.heartCount || 1) - 1
+						);
+					})
+					.catch(() => {});
 			} else {
-				HeartArticle(this.article.id).then(() => {
-					this.$set(this.article, 'hearted', true)
-					this.$set(this.article, 'heartCount', (this.article.heartCount || 0) + 1)
-				}).catch(() => {})
+				HeartArticle(this.article.id)
+					.then(() => {
+						this.$set(this.article, "hearted", true);
+						this.$set(
+							this.article,
+							"heartCount",
+							(this.article.heartCount || 0) + 1
+						);
+					})
+					.catch(() => {});
 			}
 		},
 		delComment(comment) {
 			const index = this.comments.findIndex(el => el.id === comment.id);
 			if (index !== -1) {
-				this.comments.splice(index, 1)
+				this.comments.splice(index, 1);
 			}
 		},
 		heartComment(comment) {
-			this.$set(comment, 'hearted', true)
-			this.$set(comment, 'heartCount', comment.heartCount + 1)
+			this.$set(comment, "hearted", true);
+			this.$set(comment, "heartCount", comment.heartCount + 1);
 		},
 		cancelHeartComment(comment) {
-			this.$set(comment, 'hearted', false)
-			this.$set(comment, 'heartCount', Math.max(comment.heartCount - 1, 0))
-		},
+			this.$set(comment, "hearted", false);
+			this.$set(
+				comment,
+				"heartCount",
+				Math.max(comment.heartCount - 1, 0)
+			);
+		}
 	}
 };
 </script>
@@ -283,11 +359,27 @@ export default {
 		color: $emphasisColor;
 		margin-right: 5px;
 	}
+	span, strong {
+		vertical-align: middle;
+	}
 }
 .article_heart {
 	margin-right: 3px;
-	&, &+span {
+	&,
+	& + span {
 		vertical-align: middle;
+	}
+}
+.anchor_fix {
+	display: block;
+	height: 20px;
+	margin-top: -20px;
+	visibility: hidden;
+}
+/deep/ {
+	.anchor_fix::target {
+		padding-top: 60px;
+		margin-top: -60px !important;
 	}
 }
 </style>

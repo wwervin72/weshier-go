@@ -2,6 +2,7 @@ import vue from "vue";
 import vueRouter from "vue-router";
 import store from "@/store/index";
 import { roles } from "@/utils/variables.js";
+import * as tools from "@/components/sideTools/config.js";
 
 vue.use(vueRouter);
 
@@ -97,7 +98,10 @@ const router = new vueRouter({
 					component: () =>
 						import(
 							/* webpackChunkName: "tarticles" */ "../components/articles/index.vue"
-						)
+						),
+					meta: {
+						sideTools: [tools.backTop]
+					}
 				},
 				{
 					path: "articles",
@@ -107,6 +111,7 @@ const router = new vueRouter({
 							/* webpackChunkName: "articles" */ "../views/articles/index.vue"
 						),
 					meta: {
+						sideTools: [tools.backTop],
 						keepAlive: true
 					}
 				},
@@ -117,7 +122,10 @@ const router = new vueRouter({
 					component: () =>
 						import(
 							/* webpackChunkName: "tagArticles" */ "../views/tagArticles/index.vue"
-						)
+						),
+					meta: {
+						sideTools: [tools.backTop]
+					}
 				},
 				{
 					path: "a/:articleId",
@@ -126,25 +134,30 @@ const router = new vueRouter({
 					component: () =>
 						import(
 							/* webpackChunkName: "article" */ "../views/article/index.vue"
-						)
+						),
+					meta: {
+						sideTools: [tools.backTop, tools.toc]
+					}
 				},
 				{
 					path: "user/:userId",
 					name: "user",
 					meta: {
+						sideTools: [tools.backTop],
 						role: [roles.admin]
 					},
 					component: () =>
 						import(
 							/* webpackChunkName: "user" */ "../views/user/index.vue"
-						)
+						),
 				},
 				{
 					path: "user/:userId/tag/:tagId",
 					name: "userTagArticles",
 					props: true,
 					meta: {
-						role: [roles.admin]
+						role: [roles.admin],
+						sideTools: [tools.backTop],
 					},
 					component: () =>
 						import(
@@ -158,7 +171,10 @@ const router = new vueRouter({
 					component: () =>
 						import(
 							/* webpackChunkName: "userTagArticles" */ "../views/cataArticles/index.vue"
-						)
+						),
+					meta: {
+						sideTools: [tools.backTop],
+					}
 				},
 				{
 					path: "editor",
@@ -303,6 +319,7 @@ const router = new vueRouter({
 							/* webpackChunkName: "comment" */ "../views/comment/index.vue"
 						),
 					meta: {
+						sideTools: [tools.backTop],
 						role: [roles.admin, roles.tourist],
 						keepAlive: true
 					}
