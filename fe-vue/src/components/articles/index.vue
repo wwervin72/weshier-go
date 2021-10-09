@@ -12,7 +12,13 @@
 					<div class="grid__item-wrap" @click.prevent="openItem(index, $event)">
 						<img class="grid__item-img" :src="`${assetsBaseUrl + article.thumbnail}`" :title="`${article.title}`">
 					</div>
-					<p class="grid__item-content">{{article.abstract}}</p>
+						<p class="grid__item-content">
+							<tooltip placement="top" :title="article.abstract">
+								<span :ref="`contentSpan${index}`">
+									{{article.abstract}}
+								</span>
+							</tooltip>
+						</p>
 					<div class="grid__item-base">
 						<div class="grid__item-info">
 							<router-link class="title " :to="`/user/${article.authorId}`">
@@ -50,17 +56,19 @@
 	</a-spin>
 </template>
 <script>
-import { Tag, Spin } from 'ant-design-vue';
+import { Tag, Spin, Tooltip } from 'ant-design-vue';
 import imagesLoaded from 'imagesloaded';
 import { Grid, Content } from "./index.js";
 import Masonry from 'masonry-layout';
 import marked from "marked";
 import highlight from 'highlight.js';
 import DOMPurify from 'dompurify';
+import clamp from '@/utils/clamp';
 
 export default {
 	name: "WsArticle",
 	components: {
+		Tooltip,
 		ATag: Tag,
 		ASpin: Spin
 	},

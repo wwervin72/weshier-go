@@ -87,7 +87,7 @@
 					@delete-comment="delComment"
 				></ws-comment>
 			</template>
-			<a-pagination
+			<a-pagination size="small"
 				v-if="comments && comments.length"
 				class="article_pagination"
 				:default-current="pageNumber"

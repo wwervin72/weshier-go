@@ -1,7 +1,7 @@
 <template>
 	<div class="ws_articles">
 		<ws-articles :articles="articles" ref="articles"></ws-articles>
-		<a-pagination class="text_rt ws_pagination" :default-current="pageNumber" show-quick-jumper @change="pagination" :total="total" />
+		<a-pagination size="small" class="text_rt ws_pagination" :default-current="pageNumber" show-quick-jumper @change="pagination" :total="total" />
 	</div>
 </template>
 

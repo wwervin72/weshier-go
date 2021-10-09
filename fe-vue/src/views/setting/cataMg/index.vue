@@ -6,7 +6,7 @@
 				<a href="javascript:;" @click="del(index, record)">删除</a>
 			</template>
 		</a-table>
-		<!-- <a-pagination show-quick-jumper :total="total" :current="pageNumber" showSizeChanger :page-size.sync="pageSize" @change="pageChange"
+		<!-- <a-pagination size="small" show-quick-jumper :total="total" :current="pageNumber" showSizeChanger :page-size.sync="pageSize" @change="pageChange"
 			@showSizeChange="pageSizeChange" :pageSizeOptions="pageSizes" /> -->
 	</div>
 </template>
