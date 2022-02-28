@@ -37,7 +37,7 @@
 		</svg>
 		<div class="frame">
 			<header class="codrops-header"></header>
-			<p class="info">哈咯！欢迎来到<strong>ervinli</strong>的个人小站</p>
+			<p ref="greet" class="info"></p>
 			<a
 				class="github"
 				href="https://github.com/wwervin72"
@@ -51,17 +51,17 @@
 			<div class="background">
 				<div class="background__copy" v-for="item in 4" :key="item"></div>
 			</div>
-			<h2 class="content__title">Weshier</h2>
-			<p class="content__tagline">一个博客记录网站</p>
+			<!-- <h2 class="content__title">Weshier</h2>
+			<p class="content__tagline">一个博客记录网站</p> -->
 		</div>
 		<nav class="menu">
 			<div class="menu__item menu__item--1" data-direction="bt">
 				<div class="menu__item-inner">
 					<div class="mainmenu">
-						<a href="#" class="mainmenu__item">美滋滋</a>
-						<a href="/articles" class="mainmenu__item">疯狂打码</a>
-						<a href="#" class="mainmenu__item">小憩一下</a>
-						<a href="#" class="mainmenu__item">咦！这是啥</a>
+						<router-link to="/" class="mainmenu__item">美滋滋</router-link>
+						<router-link to="/articles" class="mainmenu__item">疯狂打码</router-link>
+						<router-link to="/" class="mainmenu__item">小憩一下</router-link>
+						<router-link to="/" class="mainmenu__item">咦！这是啥</router-link>
 					</div>
 					<p class="label label--topleft">
 						the episode of my life
@@ -118,6 +118,7 @@
 	</div>
 </template>
 <script>
+import Typed from 'typed.js';
 import { initMenu } from "./menu";
 import { fetchTagList } from '@/api/fetch/tag.js';
 
@@ -134,6 +135,10 @@ export default {
 	},
 	mounted() {
 		this.menu = initMenu();
+		new Typed(this.$refs.greet, {
+			strings: '哈咯！欢迎来到<strong>ervinli</strong>的个人小站',
+			typeSpeed: 40
+		})
 	},
 	methods: {
 		fetchTagList() {
