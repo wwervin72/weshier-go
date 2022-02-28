@@ -142,6 +142,7 @@ const router = new vueRouter({
 				{
 					path: "user/:userId",
 					name: "user",
+					props: true,
 					meta: {
 						sideTools: [tools.backTop],
 						role: [roles.admin]

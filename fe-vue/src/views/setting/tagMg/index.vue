@@ -1,6 +1,7 @@
 <template>
 	<div>
-		<a-table :columns="columns" :data-source="list" :pagination="pagination" rowKey="id">
+		<a-table :columns="columns" :data-source="list" :pagination="pagination"
+			@change="pageChange" rowKey="id">
 			<template #operation="text, record, index">
 				<a href="javascript:;" @click="edit(index, record)">编辑</a>
 				<a href="javascript:;" @click="del(index, record)">删除</a>
@@ -25,7 +26,8 @@ export default {
 		return {
 			pagination: {
 				current: 0,
-				pageSize: 5,
+				pageSize: 10,
+				showSizeChanger: true,
 				pageSizeOptions: ['5', '10', '15', '20'],
 				total: 0,
 			},
@@ -55,7 +57,10 @@ export default {
 	},
 	methods: {
 		fetchTagPagination() {
-			fetchTagPagination().then(res => {
+			fetchTagPagination({
+				pageSize: this.pagination.pageSize,
+				pageNumber: this.pagination.current,
+			}).then(res => {
 				if (res.code === 200) {
 					const { data } = res.data
 					this.total = data.total
@@ -70,8 +75,11 @@ export default {
 		pageChange () {
 
 		},
-		pageSizeChange () {
-
+		pageSizeChange (pagination) {
+			const { pageSize, current } = pagination
+			this.pagination.pageSize = pageSize
+			this.pagination.current = current
+			this.fetchTagPagination()
 		},
 		edit(index, record) {
 			this.$router.push("/setting/tag/" + record.id)

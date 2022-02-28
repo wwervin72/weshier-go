@@ -37,7 +37,7 @@
 		</svg>
 		<div class="frame">
 			<header class="codrops-header"></header>
-			<p class="info">哈咯！欢迎来到<strong>ervinli</strong>的个人小站</p>
+			<p ref="greet" class="info"></p>
 			<a
 				class="github"
 				href="https://github.com/wwervin72"
@@ -118,6 +118,7 @@
 	</div>
 </template>
 <script>
+import Typed from 'typed.js';
 import { initMenu } from "./menu";
 import { fetchTagList } from '@/api/fetch/tag.js';
 
@@ -134,6 +135,10 @@ export default {
 	},
 	mounted() {
 		this.menu = initMenu();
+		new Typed(this.$refs.greet, {
+			strings: '哈咯！欢迎来到<strong>ervinli</strong>的个人小站',
+			typeSpeed: 40
+		})
 	},
 	methods: {
 		fetchTagList() {

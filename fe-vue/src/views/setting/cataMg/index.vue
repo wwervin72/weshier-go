@@ -1,6 +1,7 @@
 <template>
 	<div>
-		<a-table :columns="columns" :data-source="list" :pagination="pagination" rowKey="id">
+		<a-table :columns="columns" :data-source="list" :pagination="pagination" rowKey="id"
+			@change="pageChange">
 			<template #operation="text, record, index">
 				<a href="javascript:;" @click="edit(index, record)">编辑</a>
 				<a href="javascript:;" @click="del(index, record)">删除</a>
@@ -55,7 +56,10 @@ export default {
 	},
 	methods: {
 		fetchCategoryPagination() {
-			fetchCategoryPagination().then(res => {
+			fetchCategoryPagination({
+				pageSize: this.pagination.pageSize,
+				pageNumber: this.pagination.current,
+			}).then(res => {
 				if (res.code === 200) {
 					const { data } = res.data
 					this.total = data.total
@@ -67,8 +71,11 @@ export default {
 				}
 			})
 		},
-		pageChange () {
-
+		pageChange (pagination) {
+			const { pageSize, current } = pagination
+			this.pagination.pageSize = pageSize
+			this.pagination.current = current
+			this.fetchTagPagination()
 		},
 		pageSizeChange () {
 

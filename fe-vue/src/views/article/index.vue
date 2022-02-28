@@ -158,6 +158,14 @@ export default {
 	computed: {
 		hashTarget() {
 			const {hash} = this.$route
+			this.$nextTick(() => {
+				if (hash.indexOf('#') === 0) {
+					const ele = document.querySelector(hash)
+					if (ele) {
+						ele.scrollIntoView()
+					}
+				}
+			})
 			return hash.indexOf('#') === 0 ? hash : ''
 		},
 		content() {
@@ -184,7 +192,7 @@ export default {
 			this.toc.toHTML()
 			this.updateTocHtml(this.toc.result)
 			this.$nextTick(() => {
-				this.$refs.hashJumpTrigger.click()
+				// this.$refs.hashJumpTrigger.click()
 			})
 			return d;
 		}
