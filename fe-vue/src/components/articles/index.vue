@@ -263,6 +263,9 @@ main {
 .grid-wrap--hidden {
 	height: 0;
 	overflow: hidden;
+	& + .content {
+		pointer-events: auto;
+	}
 }
 /deep/ {
 	.full_grid {
@@ -410,6 +413,8 @@ main {
 	top: 0;
 	left: 0;
 	width: 100vw;
+	height: 100%;
+	overflow-y: auto;
 	z-index: 1000;
 }
 .content__item {
