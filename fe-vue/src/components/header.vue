@@ -1,7 +1,7 @@
 <template>
 	<header class="ws_header">
 		<div class="ws_header_content">
-			<a href="/" class="logo"></a>
+			<router-link to="/" class="logo"></router-link>
 			<a href="javascript:;" class="ws_iconfont ws_caidan" id="switch_user_menu"></a>
 			<div class="user_area">
 				<div class="user_right">

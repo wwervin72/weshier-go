@@ -6,6 +6,8 @@
 				v-model="content"
 				placeholder="来都来了，总得留下点什么"
 				:auto-size="{ minRows: 3, maxRows: 5 }"
+				:maxLength="maxLen"
+				allowClear
 				@keyup.enter="enterKeyUp"
 			>
 			</a-textarea>
@@ -23,7 +25,7 @@
 				</div>
 				<div class="action_right">
 					<a-button type="link" class="cancel" @click="cancel">取消</a-button>
-					<a-button type="primary" @click="submit">提交</a-button>
+					<a-button type="primary" @click="submit" :disabled="!content">提交</a-button>
 				</div>
 			</div>
 		</div>
@@ -52,7 +54,8 @@ export default {
 	},
 	data() {
 		return {
-			content: ''
+			content: '',
+			maxLen: 250
 		}
 	},
 	computed: {

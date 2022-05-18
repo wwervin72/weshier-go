@@ -136,7 +136,7 @@ export default {
 	mounted() {
 		this.menu = initMenu();
 		new Typed(this.$refs.greet, {
-			strings: '哈咯！欢迎来到<strong>ervinli</strong>的个人小站',
+			strings: ['哈咯！欢迎来到<strong>ervinli</strong>的个人小站'],
 			typeSpeed: 40
 		})
 	},

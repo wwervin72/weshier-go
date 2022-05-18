@@ -3,7 +3,7 @@
 		<ws-comment-editor class="comment_editor" @add-comment="addComment"></ws-comment-editor>
 		<ws-comment v-for="comment in comments" :key="comment.id" :comment="comment" @delete-comment="delComment"  @heart-comment="heartComment"
 			@cancel-heart-comment="cancelHeartComment"></ws-comment>
-		<a-pagination class="text_rt ws_pagination" :default-current="pageNumber" @change="pagination" :total="total" />
+		<a-pagination size="small" class="text_rt ws_pagination" :default-current="pageNumber" @change="pagination" :total="total" />
 	</div>
 </template>
 
