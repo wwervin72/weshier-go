@@ -24,7 +24,8 @@
 		</div>
 		<div class="app_info">
 			<span>
-				&copy;&nbsp;&hearts;&nbsp;<a href="mailto:lw_ervin@sina.cn">ervin</a>
+				<a href="https://beian.miit.gov.cn/">渝ICP备2021011912号-1</a>&nbsp;
+				&hearts;&nbsp;<a href="mailto:lw_ervin@sina.cn">ervin</a>
 			</span>
 			<span class="power_by">
 				power by golang & vue

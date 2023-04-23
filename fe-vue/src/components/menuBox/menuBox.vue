@@ -46,6 +46,7 @@
 				><svg class="icon icon--github">
 					<use xlink:href="#icon-github"></use></svg
 			></a>
+			<a class="github copyright" href="https://beian.miit.gov.cn/">渝ICP备2021011912号-1</a>&nbsp;
 		</div>
 		<div class="content">
 			<div class="background">
@@ -183,5 +184,9 @@ export default {
 }
 .sidemenu__item-inner {
 	color: #fff;
+}
+.copyright {
+	color: rgba($color: #fff, $alpha: 0.5);
+	justify-self: end;
 }
 </style>
