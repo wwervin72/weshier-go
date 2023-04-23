@@ -380,9 +380,12 @@ main {
 	padding-top: 10px;
 }
 .grid__item-content {
+	text-indent: 2em;
 	width: 100%;
 	padding-top: 20px;
 	transform: translate(0, 0);
+	color: #999;
+	font-size: 13px;
 }
 .grid__item-tag {
 	.tag_item {
